@@ -7,87 +7,217 @@
 <title>Para Camilita ❤️</title>
 
 <style>
+
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:'Georgia', serif;
+    font-family:Georgia, serif;
 }
 
 body{
     min-height:100vh;
     background:
-    linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.55)),
+    linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.65)),
     url("foto.jpg");
+
     background-size:cover;
     background-position:center;
-    color:white;
     display:flex;
     justify-content:center;
     align-items:center;
-    padding:20px;
+    overflow:hidden;
+    color:white;
 }
 
+
+/* REGALO */
+
+.regalo{
+    text-align:center;
+    animation:entrada 2s;
+}
+
+.regalo h1{
+    font-size:38px;
+    margin-bottom:30px;
+}
+
+
+.caja{
+    font-size:100px;
+    cursor:pointer;
+    animation:flotar 2s infinite;
+}
+
+
+.boton{
+    margin-top:25px;
+    padding:15px 35px;
+    border:none;
+    border-radius:30px;
+    background:#ff6b9d;
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+}
+
+
 .carta{
-    max-width:800px;
-    background:rgba(255,255,255,.12);
-    backdrop-filter:blur(10px);
-    border-radius:25px;
+    display:none;
+    max-width:850px;
+    margin:20px;
+    background:rgba(255,255,255,.15);
+    backdrop-filter:blur(15px);
     padding:35px;
-    box-shadow:0 0 30px rgba(255,255,255,.2);
+    border-radius:25px;
+    box-shadow:0 0 40px rgba(255,255,255,.3);
     animation:aparecer 2s;
 }
 
-h1{
+
+.carta h1{
     text-align:center;
-    font-size:40px;
+    font-size:42px;
     margin-bottom:25px;
 }
 
-p{
+
+.carta p{
     font-size:18px;
     line-height:1.8;
     margin-bottom:18px;
 }
 
-.corazon{
+
+.foto{
     text-align:center;
-    font-size:35px;
-    animation:latir 1.5s infinite;
 }
+
+
+.foto img{
+    width:220px;
+    height:220px;
+    object-fit:cover;
+    border-radius:50%;
+    border:5px solid white;
+    margin-bottom:25px;
+}
+
 
 .contador{
-    margin-top:25px;
     text-align:center;
     font-size:20px;
+    margin-top:25px;
 }
+
+
+.corazon{
+    position:absolute;
+    bottom:-50px;
+    animation:subir 8s linear infinite;
+}
+
+
+@keyframes subir{
+
+from{
+transform:translateY(0);
+opacity:1;
+}
+
+to{
+transform:translateY(-110vh);
+opacity:0;
+}
+
+}
+
+
+@keyframes flotar{
+
+50%{
+transform:translateY(-15px);
+}
+
+}
+
 
 @keyframes aparecer{
-    from{
-        opacity:0;
-        transform:translateY(30px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
+
+from{
+opacity:0;
+transform:scale(.7);
 }
 
-@keyframes latir{
-    0%{transform:scale(1);}
-    50%{transform:scale(1.2);}
-    100%{transform:scale(1);}
+to{
+opacity:1;
+transform:scale(1);
 }
+
+}
+
+
+@keyframes entrada{
+
+from{
+opacity:0;
+}
+
+to{
+opacity:1;
+}
+
+}
+
 
 </style>
+
 </head>
 
 
 <body>
 
-<div class="carta">
 
-<h1>Para mi Camilita ❤️</h1>
+<audio id="musica" loop>
+<source src="musica.mp3" type="audio/mpeg">
+</audio>
+
+
+
+<div class="regalo" id="regalo">
+
+<h1>
+Tengo algo especial para ti, Camilita ❤️
+</h1>
+
+
+<div class="caja">
+🎁
+</div>
+
+
+<button class="boton" onclick="abrir()">
+Abrir mi regalo ❤️
+</button>
+
+
+</div>
+
+
+
+<div class="carta" id="carta">
+
+
+<div class="foto">
+<img src="foto.jpg">
+</div>
+
+
+<h1>
+Para mi Camilita ❤️
+</h1>
+
 
 <p>
 Bueno, mi amor, no sé por dónde empezar, pero sé que tengo que mandarte esto.
@@ -95,76 +225,128 @@ No lo hago porque estés enojada ni porque peleamos.
 Lo hago porque me nace del corazón.
 </p>
 
+
 <p>
 Quiero agradecerte por cada intención tuya, por cada vez que te nace hablarme,
-cuidarme, amarme y estar conmigo. Sé que no es tu obligación hacerlo,
-por eso lo valoro muchísimo.
+cuidarme, amarme y estar conmigo.
+Gracias por elegirme y por todo lo que haces por mí.
 </p>
+
 
 <p>
 Sé que no todos los días son fáciles.
-Habrá días felices, días tristes y días donde quizás nos cueste entendernos,
-pero eso nunca significa que deje de amarte o preocuparme por ti.
+Habrá días buenos y días malos, pero eso nunca cambia lo mucho que te amo.
 </p>
 
-<p>
-Gracias por llegar a mi vida, por cada momento, por cada enseñanza
-y por cada victoria que hemos conseguido juntos.
-</p>
 
 <p>
-También quiero pedirte perdón por las veces que te hice sentir mal,
-por las veces que no reaccioné como debía.
-Estoy aprendiendo, estoy creciendo y quiero ser mejor para ti.
+También quiero pedirte perdón por las veces que pude hacerte sentir mal.
+Estoy aprendiendo y quiero ser una mejor persona para ti.
 </p>
 
-<p>
-Quiero que sepas que te voy a amar hoy, mañana y siempre.
-No por una relación perfecta, sino por una relación real,
-donde seguimos eligiéndonos cada día.
-</p>
 
 <p>
-Espero estar ahí para verte cumplir tus sueños,
-para celebrar tus logros y acompañarte en cada camino.
+Gracias a Dios por ponerme a alguien como tú en mi camino.
+Espero acompañarte en tus sueños, celebrar tus logros y estar contigo siempre.
 </p>
 
+
 <p>
-Te amo mucho, Camilita hermosa.
+Te amo muchísimo, Camilita hermosa.
 Eres una persona demasiado especial para mí.
-Gracias por ser tú. ❤️
+❤️
 </p>
 
-
-<div class="corazon">
-❤️
-</div>
 
 
 <div class="contador" id="contador"></div>
 
+
 </div>
+
 
 
 <script>
 
-let inicio = new Date("2025-11-29");
 
-function actualizar(){
+function abrir(){
 
-let hoy = new Date();
+document.getElementById("regalo").style.display="none";
 
-let diferencia = hoy - inicio;
+document.getElementById("carta").style.display="block";
 
-let dias = Math.floor(diferencia/(1000*60*60*24));
 
-document.getElementById("contador").innerHTML =
-"Juntos desde el 29-11-2025 ❤️<br>" +
-"días compartiendo amor: " + dias;
+let sonido=document.getElementById("musica");
+
+sonido.play();
+
+
+crearCorazones();
 
 }
 
+
+
+function crearCorazones(){
+
+setInterval(()=>{
+
+
+let corazon=document.createElement("div");
+
+corazon.className="corazon";
+
+corazon.innerHTML="❤️";
+
+corazon.style.left=Math.random()*100+"%";
+
+corazon.style.fontSize=(Math.random()*25+15)+"px";
+
+
+document.body.appendChild(corazon);
+
+
+setTimeout(()=>{
+
+corazon.remove();
+
+},8000);
+
+
+
+},500);
+
+
+}
+
+
+
+
+let fecha=new Date("2025-11-29");
+
+
+function actualizar(){
+
+
+let ahora=new Date();
+
+
+let dias=Math.floor(
+(ahora-fecha)/(1000*60*60*24)
+);
+
+
+document.getElementById("contador").innerHTML=
+"❤️ Juntos desde el 29-11-2025 ❤️<br><br>"+
+"días compartiendo amor: "+dias;
+
+
+
+}
+
+
 actualizar();
+
 
 </script>
 
