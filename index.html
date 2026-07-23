@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Para Camilita ❤️</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Georgia', serif;
+}
+
+body{
+    min-height:100vh;
+    background:
+    linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.55)),
+    url("foto.jpg");
+    background-size:cover;
+    background-position:center;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.carta{
+    max-width:800px;
+    background:rgba(255,255,255,.12);
+    backdrop-filter:blur(10px);
+    border-radius:25px;
+    padding:35px;
+    box-shadow:0 0 30px rgba(255,255,255,.2);
+    animation:aparecer 2s;
+}
+
+h1{
+    text-align:center;
+    font-size:40px;
+    margin-bottom:25px;
+}
+
+p{
+    font-size:18px;
+    line-height:1.8;
+    margin-bottom:18px;
+}
+
+.corazon{
+    text-align:center;
+    font-size:35px;
+    animation:latir 1.5s infinite;
+}
+
+.contador{
+    margin-top:25px;
+    text-align:center;
+    font-size:20px;
+}
+
+@keyframes aparecer{
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes latir{
+    0%{transform:scale(1);}
+    50%{transform:scale(1.2);}
+    100%{transform:scale(1);}
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="carta">
+
+<h1>Para mi Camilita ❤️</h1>
+
+<p>
+Bueno, mi amor, no sé por dónde empezar, pero sé que tengo que mandarte esto.
+No lo hago porque estés enojada ni porque peleamos.
+Lo hago porque me nace del corazón.
+</p>
+
+<p>
+Quiero agradecerte por cada intención tuya, por cada vez que te nace hablarme,
+cuidarme, amarme y estar conmigo. Sé que no es tu obligación hacerlo,
+por eso lo valoro muchísimo.
+</p>
+
+<p>
+Sé que no todos los días son fáciles.
+Habrá días felices, días tristes y días donde quizás nos cueste entendernos,
+pero eso nunca significa que deje de amarte o preocuparme por ti.
+</p>
+
+<p>
+Gracias por llegar a mi vida, por cada momento, por cada enseñanza
+y por cada victoria que hemos conseguido juntos.
+</p>
+
+<p>
+También quiero pedirte perdón por las veces que te hice sentir mal,
+por las veces que no reaccioné como debía.
+Estoy aprendiendo, estoy creciendo y quiero ser mejor para ti.
+</p>
+
+<p>
+Quiero que sepas que te voy a amar hoy, mañana y siempre.
+No por una relación perfecta, sino por una relación real,
+donde seguimos eligiéndonos cada día.
+</p>
+
+<p>
+Espero estar ahí para verte cumplir tus sueños,
+para celebrar tus logros y acompañarte en cada camino.
+</p>
+
+<p>
+Te amo mucho, Camilita hermosa.
+Eres una persona demasiado especial para mí.
+Gracias por ser tú. ❤️
+</p>
+
+
+<div class="corazon">
+❤️
+</div>
+
+
+<div class="contador" id="contador"></div>
+
+</div>
+
+
+<script>
+
+let inicio = new Date("2025-11-29");
+
+function actualizar(){
+
+let hoy = new Date();
+
+let diferencia = hoy - inicio;
+
+let dias = Math.floor(diferencia/(1000*60*60*24));
+
+document.getElementById("contador").innerHTML =
+"Juntos desde el 29-11-2025 ❤️<br>" +
+"días compartiendo amor: " + dias;
+
+}
+
+actualizar();
+
+</script>
+
+
+</body>
+</html>
