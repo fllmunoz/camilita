@@ -203,6 +203,51 @@ z-index:10;
 }
 
 
+/* DIAGNOSTICO */
+
+.diag{
+
+position:fixed;
+
+left:14px;
+
+right:14px;
+
+bottom:14px;
+
+z-index:999;
+
+background:rgba(0,0,0,.85);
+
+border:1px solid rgba(255,255,255,.35);
+
+border-radius:14px;
+
+padding:14px 16px;
+
+font-family:Arial, sans-serif;
+
+font-size:13px;
+
+line-height:1.55;
+
+display:none;
+
+}
+
+.diag.show{
+
+display:block;
+
+}
+
+.diag b{
+
+color:#ffb3c6;
+
+}
+
+
 
 /* ANIMACIONES */
 
@@ -403,9 +448,32 @@ Gracias por ser tú y por compartir tu vida conmigo.
 </div>
 
 
+<div class="diag" id="diag"></div>
 
 
 <script>
+
+
+function mostrarDiag(msg){
+
+var d = document.getElementById("diag");
+
+d.innerHTML = msg;
+
+d.classList.add("show");
+
+}
+
+
+// Escucha errores reales del elemento de audio (archivo no encontrado,
+// formato no soportado, red, etc.) en vez de fallar en silencio.
+var musicaEl = document.getElementById("musica");
+
+musicaEl.addEventListener("error", function(){
+
+mostrarDiag("<b>Error cargando el audio.</b><br>El navegador no pudo leer musica.mp3. Revisa que el archivo exista con ese nombre exacto y que sea un MP3 real (no un audio de WhatsApp renombrado).");
+
+});
 
 
 function abrir(){
@@ -424,7 +492,42 @@ let musica=document.getElementById("musica");
 musica.volume=0.5;
 
 
-musica.play();
+var promesa = musica.play();
+
+
+if(promesa !== undefined){
+
+promesa.then(function(){
+
+// se reprodujo sin problema
+
+}).catch(function(err){
+
+var codigo = musica.error ? musica.error.code : null;
+
+var detalle = "";
+
+if(codigo === 1) detalle = "Reproducción abortada.";
+
+else if(codigo === 2) detalle = "Error de red al descargar el archivo.";
+
+else if(codigo === 3) detalle = "El archivo está dañado o el códec no es compatible (MEDIA_ERR_DECODE).";
+
+else if(codigo === 4) detalle = "El archivo no se encontró o el formato no es soportado (MEDIA_ERR_SRC_NOT_SUPPORTED). Esto pasa mucho cuando el .mp3 en realidad es un audio de WhatsApp (.opus/.ogg) renombrado.";
+
+else detalle = "El navegador bloqueó la reproducción automática (" + err.name + ").";
+
+mostrarDiag("<b>No sonó la música.</b><br>" + detalle + "<br><br>Toca aquí para reintentar.");
+
+document.getElementById("diag").onclick = function(){
+
+musica.play().catch(function(){});
+
+};
+
+});
+
+}
 
 
 
