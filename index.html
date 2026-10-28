@@ -3,24 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Para ti, Camilita ❤️</title>
+<title>11 Meses Juntos - Para Camilita ❤️</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,400&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Great+Vibes&display=swap" rel="stylesheet">
 <style>
   :root {
-    /* NUEVA PALETA: Negro y Rosado */
-    --bg-base: #0a0508;
-    --bg-surface: #1a0b12;
+    --bg-base: #060205;
     --pink-soft: #ffb6c1;
     --pink-mid: #ff69b4;
     --pink-hot: #ff1493;
     --pink-neon: #ff007f;
     --text-light: #ffffff;
     --text-dim: #f0cdda;
-    --glass-bg: rgba(26, 11, 18, 0.85);
-    --glass-border: rgba(255, 105, 180, 0.3);
-    --ease: cubic-bezier(0.25, 1, 0.5, 1);
+    --glass-bg: rgba(20, 8, 15, 0.9);
+    --glass-border: rgba(255, 105, 180, 0.35);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -30,426 +27,528 @@
     background: var(--bg-base);
     font-family: 'Lato', sans-serif;
     color: var(--text-light);
-    -webkit-tap-highlight-color: transparent;
   }
-  
-  /* Fondo Oscuro con destellos rosados */
-  .dark-pink-bg {
+
+  /* Fondo de Universo Estrellado */
+  .universe {
     position: fixed;
     inset: 0;
     z-index: 0;
-    background: radial-gradient(circle at top right, rgba(255, 20, 147, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at bottom left, rgba(255, 0, 127, 0.15) 0%, transparent 50%),
-                linear-gradient(135deg, var(--bg-base) 0%, #000000 100%);
-    transition: filter 1.5s var(--ease);
+    background: radial-gradient(circle at center, #1a0814 0%, #060205 100%);
   }
-  body.letter-open .dark-pink-bg { filter: brightness(0.7); }
 
-  /* Corazones flotantes rosados */
-  .hearts-field { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
-  .heart-p {
+  .bg-star {
     position: absolute;
-    bottom: -10%;
-    color: var(--pink-mid);
-    text-shadow: 0 0 10px var(--pink-hot);
-    font-size: 24px;
-    opacity: 0;
-    animation: floatHeart 8s ease-in infinite;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.5;
+    animation: twinkle var(--duration, 3s) infinite ease-in-out;
   }
-  @keyframes floatHeart {
-    0% { transform: translateY(0) translateX(0) scale(0.5); opacity: 0; }
-    20% { opacity: 0.8; }
-    80% { opacity: 0.8; }
-    100% { transform: translateY(-110vh) translateX(30px) scale(1.2); opacity: 0; }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.2; transform: scale(0.8); }
+    50% { opacity: 0.9; transform: scale(1.2); }
   }
 
-  .screen {
+  /* ================= PANTALLA DE CONTRASEÑA ================= */
+  #lock-screen {
     position: relative;
+    z-index: 5;
     min-height: 100vh;
     min-height: 100dvh;
-    width: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 3;
-  }
-
-  /* ============ COVER (PORTADA) ============ */
-  #cover { flex-direction: column; text-align: center; padding: 2rem; transition: opacity 0.8s ease, visibility 0.8s; }
-  #cover.hide { opacity: 0; visibility: hidden; pointer-events: none; position: absolute; }
-
-  .eyebrow {
-    font-family: 'Lato', sans-serif;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    font-size: 12px;
-    color: var(--pink-soft);
-    margin-bottom: 1rem;
-    opacity: 0;
-    animation: fadeIn 1s forwards 0.3s;
-  }
-
-  .cover-title {
-    font-family: 'Playfair Display', serif;
-    font-weight: 600;
-    font-size: clamp(2rem, 6vw, 3.5rem);
-    color: var(--text-light);
-    margin-bottom: 2rem;
-    text-shadow: 0 0 20px rgba(255, 20, 147, 0.4);
-    opacity: 0;
-    animation: fadeIn 1s forwards 0.6s;
-  }
-  .cover-title .name {
-    font-family: 'Great Vibes', cursive;
-    color: var(--pink-neon);
-    font-size: 1.4em;
-    font-weight: normal;
-  }
-
-  /* Caja de regalo: Negra con cinta rosada */
-  .gift-wrap { opacity: 0; animation: fadeIn 1s forwards 0.9s; margin-bottom: 2rem; }
-  .gift-btn { position: relative; width: 140px; height: 140px; background: none; border: none; cursor: pointer; }
-  .gift-svg { width: 100%; height: 100%; transition: transform 0.3s ease; filter: drop-shadow(0 0 15px rgba(255,0,127,0.3)); }
-  .gift-btn:hover .gift-svg { transform: scale(1.05) translateY(-5px); filter: drop-shadow(0 0 25px rgba(255,0,127,0.5)); }
-  
-  .box-body { fill: #111; stroke: var(--pink-hot); stroke-width: 2; }
-  .box-ribbon { fill: var(--pink-hot); }
-  .box-lid { fill: #222; stroke: var(--pink-hot); stroke-width: 2; transition: transform 0.6s ease; transform-origin: center top; }
-  
-  .gift-btn.opening .box-lid { transform: translateY(-40px) rotate(-15deg); opacity: 0; }
-  .gift-btn.opening .box-body { animation: shake 0.4s ease; }
-
-  @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-4px); }
-    75% { transform: translateX(4px); }
-  }
-
-  .open-cta {
-    padding: 12px 30px;
-    font-family: 'Lato', sans-serif;
-    font-size: 14px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--text-light);
-    background: transparent;
-    border: 1px solid var(--pink-hot);
-    border-radius: 30px;
-    cursor: pointer;
-    box-shadow: 0 0 15px rgba(255, 20, 147, 0.2), inset 0 0 10px rgba(255, 20, 147, 0.1);
-    transition: all 0.3s ease;
-    opacity: 0;
-    animation: fadeIn 1s forwards 1.2s;
-  }
-  .open-cta:hover { background: var(--pink-hot); box-shadow: 0 0 20px rgba(255, 20, 147, 0.6); transform: translateY(-2px); color: #fff; }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* ============ CARTA Y GALERÍA ============ */
-  #letter-screen {
-    display: none;
-    padding: 2rem;
     flex-direction: column;
     align-items: center;
-    padding-top: 5vh;
-    padding-bottom: 10vh;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+    transition: opacity 0.8s ease, visibility 0.8s;
   }
-  #letter-screen.show { display: flex; animation: fadeIn 1.2s forwards; }
 
-  .letter-card {
+  #lock-screen.hide {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    position: absolute;
+  }
+
+  .lock-card {
     background: var(--glass-bg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--glass-border);
     border-radius: 24px;
-    padding: 3rem 2.5rem;
-    max-width: 550px;
+    padding: 2.5rem 2rem;
+    max-width: 400px;
     width: 100%;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(255, 20, 147, 0.1);
-    text-align: center;
-    position: relative;
-    margin-bottom: 2rem;
+    box-shadow: 0 0 35px rgba(255, 20, 147, 0.25);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
 
-  .letter-card::before {
-    content: '❤️';
-    position: absolute;
-    top: -20px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 2.5rem;
-    background: var(--bg-surface);
-    border: 1px solid var(--pink-hot);
-    border-radius: 50%;
-    padding: 10px;
-    box-shadow: 0 0 15px rgba(255, 20, 147, 0.3);
+  .lock-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    display: block;
+    animation: pulse 2s infinite ease-in-out;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
   }
 
-  .letter-title {
+  .lock-title {
     font-family: 'Playfair Display', serif;
     font-size: 1.8rem;
     color: var(--pink-soft);
-    margin-bottom: 1.5rem;
-    font-weight: 600;
+    margin-bottom: 0.5rem;
   }
 
-  .letter-body {
-    font-family: 'Lato', sans-serif;
-    font-size: 1.1rem;
-    line-height: 1.8;
+  .lock-subtitle {
+    font-size: 0.9rem;
     color: var(--text-dim);
-    text-align: left;
+    margin-bottom: 1.8rem;
+    line-height: 1.4;
   }
-  
-  .letter-body p { margin-bottom: 1.2rem; }
 
-  .highlight {
-    color: var(--pink-neon);
-    font-weight: bold;
-    font-family: 'Playfair Display', serif;
+  .pass-input {
+    width: 100%;
+    padding: 14px 20px;
+    border-radius: 30px;
+    border: 1px solid var(--pink-hot);
+    background: rgba(0,0,0,0.5);
+    color: #fff;
     font-size: 1.2rem;
-    text-shadow: 0 0 8px rgba(255,0,127,0.4);
+    text-align: center;
+    letter-spacing: 0.3em;
+    outline: none;
+    margin-bottom: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .pass-input:focus {
+    border-color: var(--pink-neon);
+    box-shadow: 0 0 15px rgba(255, 0, 127, 0.5);
+  }
+
+  .pass-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 30px;
+    border: none;
+    background: var(--pink-hot);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(255, 20, 147, 0.4);
+    transition: transform 0.2s ease, background 0.3s ease;
+  }
+
+  .pass-btn:hover {
+    background: var(--pink-neon);
+    transform: translateY(-2px);
+  }
+
+  .error-msg {
+    color: #ff4d6d;
+    font-size: 0.85rem;
+    margin-top: 1rem;
+    display: none;
+    animation: shake 0.4s ease;
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
+
+  /* ================= PANTALLA PRINCIPAL (CONSTELACIÓN) ================= */
+  #main-content {
+    position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem 5rem;
+    text-align: center;
+  }
+
+  #main-content.show {
+    display: flex;
+    animation: fadeIn 1.2s forwards;
+  }
+
+  .title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    margin-top: 1rem;
+    color: var(--text-light);
+    text-shadow: 0 0 15px rgba(255, 20, 147, 0.5);
+  }
+
+  .title .highlight {
+    font-family: 'Great Vibes', cursive;
+    color: var(--pink-neon);
+    font-size: 1.4em;
+  }
+
+  .subtitle {
+    font-size: 0.95rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--pink-soft);
+    margin-top: 0.5rem;
+    margin-bottom: 1.8rem;
+  }
+
+  .counter {
+    font-size: 0.9rem;
+    background: rgba(255, 105, 180, 0.15);
+    border: 1px solid var(--pink-hot);
+    padding: 6px 18px;
+    border-radius: 20px;
+    margin-bottom: 2rem;
+    color: var(--pink-soft);
+  }
+
+  /* Rejilla de 11 Estrellas */
+  .stars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 20px;
+    max-width: 500px;
+    width: 100%;
+    margin-bottom: 2.5rem;
+  }
+
+  .star-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.3s ease;
+  }
+  .star-btn:hover { transform: scale(1.15); }
+
+  .star-icon {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: rgba(255, 20, 147, 0.15);
+    border: 2px solid var(--pink-hot);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 0 15px rgba(255, 20, 147, 0.3);
+    transition: all 0.4s ease;
+  }
+
+  .star-btn.unlocked .star-icon {
+    background: var(--pink-hot);
+    box-shadow: 0 0 25px var(--pink-neon);
+  }
+
+  .star-label {
+    font-size: 12px;
+    color: var(--pink-soft);
+    font-weight: bold;
+  }
+
+  /* Modal Emergente */
+  .modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+  .modal.active { opacity: 1; pointer-events: auto; }
+
+  .modal-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 2rem 1.5rem;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 0 30px rgba(255, 0, 127, 0.3);
+    transform: translateY(20px);
+    transition: transform 0.4s ease;
+  }
+  .modal.active .modal-card { transform: translateY(0); }
+
+  .modal-title {
+    font-family: 'Playfair Display', serif;
+    color: var(--pink-neon);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .modal-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-dim);
+    margin-bottom: 1.5rem;
+  }
+
+  .close-btn {
+    background: var(--pink-hot);
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(255, 20, 147, 0.4);
+  }
+
+  /* Carta Final Desbloqueable */
+  #final-letter {
+    display: none;
+    max-width: 550px;
+    width: 100%;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 2.5rem 2rem;
+    box-shadow: 0 0 40px rgba(255, 20, 147, 0.3);
+    margin-top: 1rem;
+    animation: fadeIn 1s forwards;
   }
 
   .signature {
-    margin-top: 2rem;
     font-family: 'Great Vibes', cursive;
     font-size: 2.5rem;
     color: var(--pink-mid);
     text-align: right;
+    margin-top: 1.5rem;
   }
 
-  /* GALERÍA DE FOTOS TIPO POLAROID */
-  .gallery-heading {
-    text-align: center;
-    font-family: 'Lato', sans-serif;
-    font-size: 14px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--pink-soft);
-    margin: 2rem 0 1rem;
-  }
-  
-  .gallery-strip {
-    display: flex;
-    gap: 20px;
-    overflow-x: auto;
-    padding: 15px 10px 30px;
-    width: 100%;
-    max-width: 100%;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-    scrollbar-color: var(--pink-hot) var(--bg-surface);
-  }
-  .gallery-strip::-webkit-scrollbar { height: 6px; }
-  .gallery-strip::-webkit-scrollbar-track { background: var(--bg-surface); border-radius: 10px; }
-  .gallery-strip::-webkit-scrollbar-thumb { background: var(--pink-hot); border-radius: 10px; }
-  
-  .polaroid {
-    flex: 0 0 auto;
-    scroll-snap-align: center;
-    width: 160px;
-    background: #fff;
-    padding: 10px 10px 25px;
-    border-radius: 4px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
-    transform: rotate(var(--tilt, 0deg));
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  .polaroid:hover { transform: scale(1.05) rotate(0deg); z-index: 10; box-shadow: 0 15px 30px rgba(255,20,147,0.4); }
-  
-  .polaroid img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    background: #222;
-    border-radius: 2px;
-  }
-  
-  .polaroid span {
-    display: block;
-    text-align: center;
-    font-family: 'Great Vibes', cursive;
-    font-size: 18px;
-    color: #111;
-    margin-top: 10px;
-  }
-
-  /* BOTÓN DE MÚSICA */
+  /* Botón de audio flotante */
   #music-toggle {
     position: fixed;
     bottom: 20px;
     right: 20px;
     z-index: 15;
-    width: 50px; height: 50px;
+    width: 45px; height: 45px;
     border-radius: 50%;
-    background: rgba(26, 11, 18, 0.8);
+    background: rgba(20, 8, 15, 0.8);
     border: 1px solid var(--pink-hot);
     color: var(--pink-soft);
     display: flex; align-items: center; justify-content: center;
-    font-size: 20px;
+    font-size: 18px;
     cursor: pointer;
-    opacity: 0; /* Se muestra al abrir el regalo */
-    transition: opacity 0.5s ease, transform 0.3s ease;
-    box-shadow: 0 0 15px rgba(255,20,147,0.2);
+    box-shadow: 0 0 15px rgba(255, 20, 147, 0.3);
   }
-  #music-toggle.visible { opacity: 1; }
-  #music-toggle:hover { transform: scale(1.1); }
-  #music-toggle.muted { border-color: #555; color: #555; box-shadow: none; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 </style>
 </head>
 <body>
 
-<!-- Etiqueta de Audio -->
 <audio id="bgMusic" loop>
   <source src="musica.mp3" type="audio/mpeg">
 </audio>
 
-<div class="dark-pink-bg"></div>
-<div class="hearts-field" id="heartsField"></div>
+<div class="universe" id="universe"></div>
 
-<!-- Botón de Música -->
+<!-- Botón de música flotante -->
 <button id="music-toggle" title="Pausar/Reproducir Música">🎵</button>
 
-<!-- ============ PORTADA ============ -->
-<section class="screen" id="cover">
-  <p class="eyebrow">Una sorpresa especial</p>
-  <h1 class="cover-title">Para ti,<br><span class="name">Camilita</span></h1>
-
-  <div class="gift-wrap">
-    <button class="gift-btn" id="giftBtn" aria-label="Abrir regalo">
-      <svg class="gift-svg" viewBox="0 0 140 140" fill="none">
-        <g class="gift-box-body">
-          <rect x="24" y="62" width="92" height="58" rx="4" class="box-body"/>
-          <rect x="60" y="62" width="20" height="58" class="box-ribbon"/>
-        </g>
-        <g class="box-lid">
-          <rect x="18" y="46" width="104" height="20" rx="4" class="box-lid"/>
-          <rect x="60" y="46" width="20" height="20" class="box-ribbon"/>
-          <path d="M70 46 C 45 25, 35 15, 60 10 C 75 10, 70 30, 70 46 Z" class="box-ribbon"/>
-          <path d="M70 46 C 95 25, 105 15, 80 10 C 65 10, 70 30, 70 46 Z" class="box-ribbon"/>
-        </g>
-      </svg>
-    </button>
-  </div>
-
-  <button class="open-cta" id="openCta">Abrir mi regalo</button>
-</section>
-
-<!-- ============ CARTA Y FOTOS ============ -->
-<section id="letter-screen" class="screen">
-  <div class="letter-card">
-    <h2 class="letter-title">Felices casi 10 meses, mi amor</h2>
+<!-- ================= PANTALLA DE ACCESO (CONTRASEÑA) ================= -->
+<section id="lock-screen">
+  <div class="lock-card">
+    <span class="lock-icon">🔒</span>
+    <h2 class="lock-title">Acceso Privado</h2>
+    <p class="lock-subtitle">Ingresa nuestra fecha especial de pololeo para desbloquear tu sorpresa (DDMMAA)</p>
     
-    <div class="letter-body">
-      <p>Mi hermosa Camilita,</p>
-      
-      <p>El tiempo a tu lado vuela. Me parece increíble que ya estemos <span class="highlight">a punto de cumplir 10 meses juntos</span>. Han sido los meses más maravillosos, llenos de risas, aprendizajes y momentos que guardo en lo más profundo de mi corazón.</p>
-      
-      <p>Quería prepararte esta pequeña sorpresa digital solo para recordarte lo especial que eres para mí y para decirte, una vez más, que <span class="highlight">te amo muchísimo</span>.</p>
-      
-      <p>Gracias por hacer que cada día sea hermoso solo con tu presencia. Vamos por muchos meses (y años) más de esta linda historia.</p>
-      
-      <div class="signature">Te amo.</div>
-    </div>
-  </div>
-
-  <!-- Galería de Fotos -->
-  <h3 class="gallery-heading">Nuestros Momentos ❤️</h3>
-  <div class="gallery-strip">
-    <div class="polaroid" style="--tilt: -3deg;">
-      <img src="foto1.jpeg" alt="Nuestra foto 1">
-      <span>Mi favorita</span>
-    </div>
-    <div class="polaroid" style="--tilt: 2deg;">
-      <img src="foto2.jpeg" alt="Nuestra foto 2">
-      <span>Tú y yo</span>
-    </div>
-    <div class="polaroid" style="--tilt: -1deg;">
-      <img src="foto3.jpeg" alt="Nuestra foto 3">
-      <span>Perfectos</span>
-    </div>
-    <div class="polaroid" style="--tilt: 4deg;">
-      <img src="foto4.jpeg" alt="Nuestra foto 4">
-      <span>Siempre juntos</span>
-    </div>
-    <div class="polaroid" style="--tilt: -2deg;">
-      <img src="foto5.jpeg" alt="Nuestra foto 5">
-      <span>Te amo</span>
-    </div>
-    <div class="polaroid" style="--tilt: 3deg;">
-      <img src="foto6.jpeg" alt="Nuestra foto 6">
-      <span>Mi vida</span>
-    </div>
-    <div class="polaroid" style="--tilt: -4deg;">
-      <img src="foto7.jpeg" alt="Nuestra foto 7">
-      <span>Para siempre</span>
-    </div>
+    <input type="password" id="passInput" class="pass-input" placeholder="••••••" maxlength="6" inputmode="numeric">
+    <button id="passBtn" class="pass-btn">DESBLOQUEAR ❤️</button>
+    <p id="errorMsg" class="error-msg">Clave incorrecta. Inténtalo de nuevo, mi amor 💕</p>
   </div>
 </section>
+
+<!-- ================= CONTENIDO PRINCIPAL ================= -->
+<section id="main-content">
+  <h1 class="title">11 Meses con <span class="highlight">Camilita</span></h1>
+  <p class="subtitle">Nuestra Constelación de Amor ❤️</p>
+  
+  <div class="counter" id="counterText">Descubre las 11 estrellas (0/11)</div>
+
+  <!-- Rejilla de 11 estrellas -->
+  <div class="stars-grid" id="starsGrid"></div>
+
+  <!-- Carta Final desbloqueable -->
+  <div id="final-letter">
+    <h2 style="font-family:'Playfair Display', serif; color: var(--pink-soft); margin-bottom: 1rem;">
+      Felices 11 Meses, Mi Amor
+    </h2>
+    <p style="line-height: 1.7; color: var(--text-dim); text-align: left; margin-bottom: 1rem;">
+      Has descubierto cada una de las 11 estrellas que representan lo increíble que ha sido este viaje a tu lado. Cada mes ha traído momentos inolvidables y estamos a solo un paso de cumplir nuestro primer año juntos.
+    </p>
+
+    <!-- REPRODUCTOR DE VIDEO DE GOOGLE DRIVE -->
+    <div style="width: 100%; max-width: 450px; margin: 20px auto; border-radius: 16px; overflow: hidden; border: 1px solid var(--pink-hot); box-shadow: 0 0 20px rgba(255, 20, 147, 0.4);">
+      <iframe 
+        src="https://drive.google.com/file/d/1l0aTRFf7bZmHFAIo-zCsau59_V1hQcpc/preview" 
+        width="100%" 
+        height="260" 
+        allow="autoplay"
+        style="border: none;">
+      </iframe>
+    </div>
+
+    <p style="line-height: 1.7; color: var(--text-dim); text-align: left;">
+      Gracias por tus sonrisas, tu cariño incondicional y por hacer que cada día sea único. Te amo con todo mi corazón.
+    </p>
+    <div class="signature">Para siempre juntos ❤️</div>
+  </div>
+</section>
+
+<!-- Modal Ventana Emergente -->
+<div class="modal" id="modal">
+  <div class="modal-card">
+    <h3 class="modal-title" id="modalTitle">Mes 1</h3>
+    <p class="modal-text" id="modalText">Texto del recuerdo aquí...</p>
+    <button class="close-btn" id="modalClose">Guardar recuerdo</button>
+  </div>
+</div>
 
 <script>
-  // 1. Generador de corazones
-  const heartsField = document.getElementById('heartsField');
-  function createHeart() {
-    const heart = document.createElement('div');
-    heart.innerHTML = '❤️';
-    heart.classList.add('heart-p');
-    heart.style.left = Math.random() * 100 + 'vw';
-    heart.style.animationDuration = (Math.random() * 4 + 6) + 's';
-    heart.style.fontSize = (Math.random() * 15 + 10) + 'px';
-    heartsField.appendChild(heart);
-    setTimeout(() => { heart.remove(); }, 10000);
-  }
-  setInterval(createHeart, 800);
+  // 1. Clave secreta
+  const SECRET_CODE = "291125";
 
-  // 2. Control de la transición, carta y música
-  const btnGift = document.getElementById('giftBtn');
-  const btnCta = document.getElementById('openCta');
-  const coverScreen = document.getElementById('cover');
-  const letterScreen = document.getElementById('letter-screen');
-  
+  const passInput = document.getElementById('passInput');
+  const passBtn = document.getElementById('passBtn');
+  const errorMsg = document.getElementById('errorMsg');
+  const lockScreen = document.getElementById('lock-screen');
+  const mainContent = document.getElementById('main-content');
   const bgMusic = document.getElementById('bgMusic');
-  const musicBtn = document.getElementById('music-toggle');
 
-  function openGift() {
-    btnGift.classList.add('opening');
-    
-    // Iniciar la música al interactuar (requerido por navegadores)
-    bgMusic.play().catch(e => console.log("El navegador bloqueó el autoplay", e));
-    musicBtn.classList.add('visible'); // Mostrar botón de música
-    
-    setTimeout(() => {
-      coverScreen.classList.add('hide');
-      document.body.classList.add('letter-open'); 
+  function checkPassword() {
+    if (passInput.value.trim() === SECRET_CODE) {
+      // Ocultar pantalla de contraseña y mostrar el contenido
+      lockScreen.classList.add('hide');
       
+      // Iniciar música tras interacción
+      bgMusic.play().catch(() => {});
+
       setTimeout(() => {
-        coverScreen.style.display = 'none';
-        letterScreen.classList.add('show');
-      }, 800); 
-    }, 600);
+        lockScreen.style.display = 'none';
+        mainContent.classList.add('show');
+      }, 600);
+    } else {
+      errorMsg.style.display = 'block';
+      passInput.value = '';
+      passInput.focus();
+    }
   }
 
-  btnGift.addEventListener('click', openGift);
-  btnCta.addEventListener('click', openGift);
+  passBtn.addEventListener('click', checkPassword);
+  passInput.addEventListener('keyup', (e) => {
+    if (e.key === 'Enter') checkPassword();
+  });
 
-  // 3. Control manual de la música (Pausar/Reproducir)
+  // 2. 11 Recuerdos / Razones (Puedes personalizar cada texto)
+  const memories = [
+    { title: "Mes 1: El Comienzo ✨", text: "Donde todo empezó oficialmente. El inicio de nuestra historia favorita." },
+    { title: "Mes 2: Primeras Risas 💖", text: "Cuando me di cuenta de que no quería dejar de escucharte reír nunca." },
+    { title: "Mes 3: Cada Vez Más Cerca 🌹", text: "Nuestros paseos y conversaciones interminables que me enamoraron más." },
+    { title: "Mes 4: Momentos Inolvidables 📸", text: "Todas las fotos e historias hermosas que empezamos a construir." },
+    { title: "Mes 5: Cómplices 💫", text: "Aprender a conocernos en cada detalle y apoyarnos en todo momento." },
+    { title: "Mes 6: Medio Año Juntos 🎉", text: "Llegar a los 6 meses y saber que esto era solo el comienzo de algo enorme." },
+    { title: "Mes 7: Mi Lugar Favorito 🏡", text: "Descubrir que mi lugar favorito en el mundo es justo a tu lado." },
+    { title: "Mes 8: Infinitos Detalles 💌", text: "Cada gesto, cada abrazo y cada palabra de cariño que nos une." },
+    { title: "Mes 9: Aprendiendo Juntos 📖", text: "Superar días buenos y no tan buenos, siempre caminando de la mano." },
+    { title: "Mes 10: La Sorpresa 🎁", text: "Celebrar nuestros 10 meses y seguir sumando recuerdos maravillosos." },
+    { title: "Mes 11: Casi Un Año 🔥", text: "Estamos a un solo paso de cumplir 1 año y mi amor por ti no para de crecer." }
+  ];
+
+  // 3. Generar fondo estrellado
+  const universe = document.getElementById('universe');
+  for (let i = 0; i < 70; i++) {
+    const star = document.createElement('div');
+    star.className = 'bg-star';
+    star.style.width = Math.random() * 3 + 'px';
+    star.style.height = star.style.width;
+    star.style.left = Math.random() * 100 + 'vw';
+    star.style.top = Math.random() * 100 + 'vh';
+    star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+    universe.appendChild(star);
+  }
+
+  // 4. Renderizar las 11 estrellas
+  const grid = document.getElementById('starsGrid');
+  const unlocked = new Set();
+
+  memories.forEach((mem, index) => {
+    const btn = document.createElement('button');
+    btn.className = 'star-btn';
+    btn.innerHTML = `
+      <div class="star-icon">⭐</div>
+      <span class="star-label">Mes ${index + 1}</span>
+    `;
+    btn.addEventListener('click', () => openMemory(index, btn));
+    grid.appendChild(btn);
+  });
+
+  const modal = document.getElementById('modal');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalText = document.getElementById('modalText');
+  const modalClose = document.getElementById('modalClose');
+
+  function openMemory(index, btnElement) {
+    modalTitle.textContent = memories[index].title;
+    modalText.textContent = memories[index].text;
+    modal.classList.add('active');
+
+    if (!unlocked.has(index)) {
+      unlocked.add(index);
+      btnElement.classList.add('unlocked');
+      updateCounter();
+    }
+  }
+
+  modalClose.addEventListener('click', () => {
+    modal.classList.remove('active');
+  });
+
+  function updateCounter() {
+    const count = unlocked.size;
+    document.getElementById('counterText').textContent = `Descubre las 11 estrellas (${count}/11)`;
+    
+    if (count === 11) {
+      document.getElementById('final-letter').style.display = 'block';
+      document.getElementById('counterText').textContent = "¡Constelación completa! ❤️";
+    }
+  }
+
+  // 5. Control de música
+  const musicBtn = document.getElementById('music-toggle');
   musicBtn.addEventListener('click', () => {
     if (bgMusic.paused) {
       bgMusic.play();
-      musicBtn.classList.remove('muted');
       musicBtn.innerHTML = '🎵';
     } else {
       bgMusic.pause();
-      musicBtn.classList.add('muted');
       musicBtn.innerHTML = '🔇';
     }
   });
 </script>
-
 </body>
 </html>
