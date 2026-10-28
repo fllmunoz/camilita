@@ -93,7 +93,7 @@
     justify-content: center;
     padding: 2rem;
     text-align: center;
-    transition: opacity 0.8s ease, transform 0.8s ease;
+    transition: opacity 0.6s ease, transform 0.6s ease;
   }
 
   #lock-screen.hide {
@@ -450,9 +450,9 @@
     width: 100%;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; /* Oculta scrollbar en Firefox */
+    scrollbar-width: none; 
   }
-  .gallery-strip::-webkit-scrollbar { display: none; } /* Oculta scrollbar en Chrome/Safari */
+  .gallery-strip::-webkit-scrollbar { display: none; }
   
   .polaroid {
     flex: 0 0 auto;
@@ -491,38 +491,11 @@
     margin-top: 3rem;
     text-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
   }
-
-  /* ================= BOTÓN DE AUDIO ================= */
-  #music-toggle {
-    position: fixed;
-    bottom: 25px;
-    right: 25px;
-    z-index: 30;
-    width: 50px; height: 50px;
-    border-radius: 50%;
-    background: var(--glass-bg);
-    backdrop-filter: blur(8px);
-    border: 1px solid var(--pink-hot);
-    color: var(--pink-soft);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px;
-    cursor: pointer;
-    box-shadow: 0 0 20px rgba(255, 20, 147, 0.3);
-    transition: all 0.3s;
-  }
-  #music-toggle:hover { transform: scale(1.1); background: var(--pink-hot); color: #fff; }
 </style>
 </head>
 <body>
 
-<audio id="bgMusic" loop>
-  <source src="musica.mp3" type="audio/mpeg">
-</audio>
-
 <div class="universe" id="universe"></div>
-<!-- El contenedor de corazones se generará por JS -->
-
-<button id="music-toggle" title="Pausar/Reproducir Música">🎵</button>
 
 <!-- ================= PANTALLA DE ACCESO ================= -->
 <section id="lock-screen">
@@ -613,25 +586,24 @@
 </div>
 
 <script>
-  // 1. Clave y Lógica de Acceso
+  // 1. Clave y Lógica de Acceso simplificada (Sin música)
   const SECRET_CODE = "291125";
   const passInput = document.getElementById('passInput');
   const passBtn = document.getElementById('passBtn');
   const errorMsg = document.getElementById('errorMsg');
   const lockScreen = document.getElementById('lock-screen');
   const mainContent = document.getElementById('main-content');
-  const bgMusic = document.getElementById('bgMusic');
 
   function checkPassword() {
     if (passInput.value.trim() === SECRET_CODE) {
+      errorMsg.style.display = 'none';
       lockScreen.classList.add('hide');
-      bgMusic.play().catch(() => {});
 
       setTimeout(() => {
         lockScreen.style.display = 'none';
         mainContent.classList.add('show');
-        startHearts(); // Inicia los corazones al entrar
-      }, 800);
+        startHearts(); 
+      }, 500); 
     } else {
       errorMsg.style.display = 'block';
       passInput.value = '';
@@ -653,4 +625,18 @@
     { title: "Mes 5: Cómplices 💫", text: "Aprender a ser un verdadero equipo en todo. Descubrir que contigo la vida es mucho más bonita.", img: "foto5.jpeg" },
     { title: "Mes 6: Medio Año 🎉", text: "Llegar a los 6 meses fue confirmar que lo nuestro era el inicio de una historia profunda y de amor verdadero.", img: "foto6.jpeg" },
     { title: "Mes 7: Mi Hogar 🏡", text: "Comprendí que mi hogar no es un lugar físico, sino cualquier sitio donde tú estés. Tu abrazo se volvió mi paz.", img: "foto7.jpeg" },
-    { title: "Mes 8: Detalles 💌", text: "Ocho meses sumando miradas y 
+    { title: "Mes 8: Detalles 💌", text: "Ocho meses sumando miradas y gestos que me recuerdan a diario la maravillosa mujer que tengo a mi lado.", img: null },
+    { title: "Mes 9: Creciendo 📖", text: "Superando cada etapa de la mano, aprendiendo con madurez y cariño. Sabiendo que unidos vencemos todo.", img: null },
+    { title: "Mes 10: Alegría 🎁", text: "Celebrar 10 meses nos demostró lo rápido que pasa el tiempo cuando se es feliz. Gracias por regalarme tanta luz.", img: null },
+    { title: "Mes 11: A un Paso 🔥", text: "Ya son 11 meses, mi Camilita hermosa. Estamos a nada de cumplir nuestro primer año y mi amor por ti es más fuerte que nunca.", img: null }
+  ];
+
+  // 3. Universo Estático
+  const universe = document.getElementById('universe');
+  for (let i = 0; i < 60; i++) {
+    const star = document.createElement('div');
+    star.className = 'bg-star';
+    star.style.width = Math.random() * 3 + 'px';
+    star.style.height = star.style.width;
+    star.style.left = Math.random() * 100 + 'vw';
+    star.styl
