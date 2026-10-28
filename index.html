@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#040103">
 <title>11 Meses Juntos - Para Camilita ❤️</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,400&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Great+Vibes&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Great+Vibes&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg-base: #040103;
-    --bg-surface: #1a0b12;
     --pink-soft: #ffd1dc;
     --pink-mid: #ff69b4;
     --pink-hot: #ff1493;
@@ -24,24 +24,26 @@
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body {
-    height: 100%;
-    overflow-x: hidden;
+    min-height: 100%;
     background: var(--bg-base);
     font-family: 'Lato', sans-serif;
     color: var(--text-light);
     -webkit-tap-highlight-color: transparent;
   }
+  body { overflow-x: hidden; }
+  body.locked { overflow: hidden; height: 100dvh; }
 
-  /* ================= FONDOS ================= */
+  /* ================= FONDO ================= */
   .universe {
     position: fixed;
     inset: 0;
     z-index: 0;
-    background: radial-gradient(circle at top right, rgba(255, 20, 147, 0.15), transparent 60%),
-                radial-gradient(circle at bottom left, rgba(128, 0, 128, 0.15), transparent 60%),
-                var(--bg-base);
+    background:
+      radial-gradient(circle at top right, rgba(255, 20, 147, 0.18), transparent 60%),
+      radial-gradient(circle at bottom left, rgba(128, 0, 128, 0.18), transparent 60%),
+      var(--bg-base);
+    overflow: hidden;
   }
-
   .bg-star {
     position: absolute;
     background: #fff;
@@ -50,14 +52,13 @@
     animation: twinkle var(--duration, 3s) infinite ease-in-out;
   }
   @keyframes twinkle {
-    0%, 100% { opacity: 0.1; transform: scale(0.7); box-shadow: 0 0 2px #fff; }
+    0%, 100% { opacity: 0.1; transform: scale(0.7); }
     50% { opacity: 0.9; transform: scale(1.3); box-shadow: 0 0 8px var(--pink-soft); }
   }
 
   .floating-heart {
     position: fixed;
     bottom: -10vh;
-    font-size: 1.2rem;
     opacity: 0;
     z-index: 1;
     pointer-events: none;
@@ -66,35 +67,36 @@
   }
   @keyframes floatUp {
     0% { transform: translateY(0) scale(0.8) rotate(0deg); opacity: 0; }
-    20% { opacity: 0.5; }
-    80% { opacity: 0.5; }
+    20% { opacity: 0.55; }
+    80% { opacity: 0.55; }
     100% { transform: translateY(-110vh) scale(1.2) rotate(20deg); opacity: 0; }
   }
 
   .glass-panel {
     background: var(--glass-bg);
-    backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
     border: 1px solid var(--glass-border);
     border-radius: 24px;
     box-shadow: 0 25px 50px rgba(0,0,0,0.5), inset 0 0 20px rgba(255, 105, 180, 0.05);
   }
 
-  /* ================= PANTALLA DE ACCESO ================= */
+  /* ================= ACCESO ================= */
   #lock-screen {
     position: relative;
     z-index: 5;
     min-height: 100vh;
     min-height: 100dvh;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 2rem;
+    padding: 1.5rem;
     text-align: center;
+    transition: opacity 0.7s ease, transform 0.7s ease;
   }
+  #lock-screen.leaving { opacity: 0; transform: scale(1.05); pointer-events: none; }
 
-  .lock-card { padding: 3rem 2rem; max-width: 400px; width: 100%; }
+  .lock-card { padding: 2.8rem 1.8rem; max-width: 400px; width: 100%; }
 
   .lock-icon {
     font-size: 3.5rem;
@@ -114,75 +116,69 @@
     font-family: 'Playfair Display', serif;
     font-size: 2rem;
     color: var(--pink-soft);
-    margin-bottom: 0.5rem;
-    letter-spacing: 1px;
+    margin-bottom: 0.6rem;
   }
-
   .lock-subtitle {
     font-size: 0.95rem;
     color: var(--text-dim);
-    margin-bottom: 2rem;
+    margin-bottom: 1.8rem;
     line-height: 1.5;
   }
 
-  .pass-input {
-    width: 100%;
-    padding: 16px 20px;
-    border-radius: 30px;
-    border: 1px solid rgba(255, 105, 180, 0.5);
-    background: rgba(0,0,0,0.6);
-    color: #fff;
-    font-size: 1.4rem;
-    text-align: center;
-    letter-spacing: 0.4em;
-    outline: none;
-    margin-bottom: 1.5rem;
-    transition: all 0.3s ease;
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+  /* Puntos de la clave */
+  .dots { display: flex; justify-content: center; gap: 12px; margin-bottom: 1.4rem; }
+  .dot {
+    width: 14px; height: 14px; border-radius: 50%;
+    border: 2px solid rgba(255,105,180,0.6);
+    transition: all 0.2s ease;
   }
-  .pass-input:focus {
-    border-color: var(--pink-neon);
-    background: rgba(0,0,0,0.8);
-    box-shadow: 0 0 20px rgba(255, 0, 127, 0.4), inset 0 2px 5px rgba(0,0,0,0.5);
-  }
-
-  .pass-btn {
-    width: 100%;
-    padding: 14px;
-    border-radius: 30px;
-    border: none;
-    background: linear-gradient(135deg, var(--pink-hot) 0%, var(--pink-neon) 100%);
-    color: #fff;
-    font-size: 1.1rem;
-    font-weight: bold;
-    letter-spacing: 0.1em;
-    cursor: pointer;
-    box-shadow: 0 5px 15px rgba(255, 20, 147, 0.4);
-    transition: all 0.3s ease;
-  }
-  .pass-btn:active {
-    transform: translateY(2px);
-    box-shadow: 0 2px 10px rgba(255, 20, 147, 0.6);
-  }
-
-  .error-msg {
-    color: #ff4d6d;
-    font-size: 0.9rem;
-    margin-top: 1.2rem;
-    display: none;
-    animation: shake 0.4s ease;
-    font-weight: 600;
-  }
+  .dot.filled { background: var(--pink-hot); border-color: var(--pink-hot); box-shadow: 0 0 10px var(--pink-hot); transform: scale(1.1); }
+  .dots.shake { animation: shake 0.4s ease; }
   @keyframes shake {
     0%, 100% { transform: translateX(0); }
     25% { transform: translateX(-8px); }
     75% { transform: translateX(8px); }
   }
 
-  /* ================= PANTALLA PRINCIPAL ================= */
+  /* Teclado propio: funciona siempre en cualquier celular */
+  .keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    max-width: 270px;
+    margin: 0 auto 1.2rem;
+  }
+  .key {
+    height: 58px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,105,180,0.4);
+    background: rgba(255,255,255,0.04);
+    color: #fff;
+    font-family: 'Lato', sans-serif;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .key:active { background: var(--pink-hot); transform: scale(0.92); box-shadow: 0 0 18px rgba(255,20,147,0.6); }
+  .key.ghost { border-color: transparent; background: none; font-size: 1.2rem; color: var(--text-dim); }
+  .key.empty { visibility: hidden; }
+
+  .error-msg {
+    color: #ff4d6d;
+    font-size: 0.9rem;
+    min-height: 1.3em;
+    font-weight: 700;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .error-msg.show { opacity: 1; }
+
+  /* ================= PRINCIPAL ================= */
   #main-content {
-    position: absolute;
-    top: 0; left: 0; right: 0;
+    position: relative;
     z-index: 2;
     min-height: 100vh;
     display: none;
@@ -191,10 +187,7 @@
     padding: 3rem 1.5rem 6rem;
     text-align: center;
   }
-  #main-content.show {
-    display: flex;
-    animation: slideUpFade 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
+  #main-content.show { display: flex; animation: slideUpFade 1s cubic-bezier(0.16, 1, 0.3, 1) both; }
   @keyframes slideUpFade {
     from { opacity: 0; transform: translateY(30px); }
     to { opacity: 1; transform: translateY(0); }
@@ -202,8 +195,7 @@
 
   .title {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(2rem, 6vw, 3.2rem);
-    color: var(--text-light);
+    font-size: clamp(2rem, 7vw, 3.2rem);
     text-shadow: 0 0 20px rgba(255, 20, 147, 0.6);
     line-height: 1.2;
   }
@@ -214,15 +206,13 @@
     display: block;
     margin-top: -5px;
   }
-
   .subtitle {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--pink-hot);
-    margin-top: 1rem;
-    margin-bottom: 2rem;
-    font-weight: bold;
+    margin: 1rem 0 1.8rem;
+    font-weight: 700;
   }
 
   .counter {
@@ -231,7 +221,7 @@
     border: 1px solid var(--pink-hot);
     padding: 8px 24px;
     border-radius: 30px;
-    margin-bottom: 3rem;
+    margin-bottom: 1rem;
     color: var(--pink-soft);
     box-shadow: 0 0 15px rgba(255,20,147,0.2);
     transition: all 0.4s ease;
@@ -242,299 +232,246 @@
     color: var(--gold-glow);
     box-shadow: 0 0 20px rgba(255, 184, 77, 0.4);
   }
+  .progress {
+    width: 100%; max-width: 280px; height: 5px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 5px; overflow: hidden;
+    margin-bottom: 2.5rem;
+  }
+  .progress > div {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--pink-hot), var(--gold-glow));
+    transition: width 0.6s ease;
+  }
 
-  /* ================= ESTRELLAS INTERACTIVAS ================= */
+  /* ================= ESTRELLAS ================= */
   .stars-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(85px, 1fr));
-    gap: 25px;
-    max-width: 550px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px 12px;
+    max-width: 420px;
     width: 100%;
     margin-bottom: 3rem;
   }
+  @media (min-width: 560px) { .stars-grid { grid-template-columns: repeat(4, 1fr); max-width: 560px; } }
 
   .star-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    transition: transform 0.4s;
+    background: none; border: none; cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    touch-action: manipulation;
+    animation: popIn 0.6s ease both;
   }
+  @keyframes popIn { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
 
   .star-icon {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
+    width: 64px; height: 64px; border-radius: 50%;
     background: rgba(20, 5, 15, 0.8);
-    border: 2px solid rgba(255, 105, 180, 0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    box-shadow: 0 0 15px rgba(255, 20, 147, 0.2);
+    border: 2px solid rgba(255, 105, 180, 0.5);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
     transition: all 0.5s ease;
     animation: starPulse 2s infinite alternate;
   }
   @keyframes starPulse {
-    from { box-shadow: 0 0 10px rgba(255, 20, 147, 0.2); border-color: rgba(255,105,180,0.4); }
-    to { box-shadow: 0 0 25px rgba(255, 20, 147, 0.6); border-color: rgba(255,105,180,1); }
+    from { box-shadow: 0 0 10px rgba(255, 20, 147, 0.2); }
+    to { box-shadow: 0 0 25px rgba(255, 20, 147, 0.6); }
   }
-
+  .star-btn:active .star-icon { transform: scale(0.9); }
   .star-btn.unlocked .star-icon {
     animation: none;
     background: linear-gradient(135deg, var(--pink-hot), var(--gold-glow));
     border-color: #fff;
-    box-shadow: 0 0 30px var(--gold-glow);
-    transform: rotate(360deg);
+    box-shadow: 0 0 28px var(--gold-glow);
   }
-
-  .star-label {
-    font-size: 13px;
-    color: var(--text-dim);
-    font-weight: 600;
-  }
+  .star-label { font-size: 13px; color: var(--text-dim); font-weight: 700; }
   .star-btn.unlocked .star-label { color: var(--gold-glow); }
 
   /* ================= MODAL ================= */
   .modal {
-    position: fixed;
-    inset: 0;
-    z-index: 20;
+    position: fixed; inset: 0; z-index: 20;
     background: rgba(0,0,0,0.85);
+    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     padding: 1.5rem;
-    opacity: 0;
-    pointer-events: none;
+    opacity: 0; pointer-events: none;
     transition: opacity 0.4s ease;
   }
   .modal.active { opacity: 1; pointer-events: auto; }
-
   .modal-card {
-    padding: 2.5rem 2rem;
-    max-width: 420px;
-    width: 100%;
+    padding: 2.2rem 1.8rem;
+    max-width: 420px; width: 100%;
+    max-height: 90vh; overflow-y: auto;
     transform: scale(0.9) translateY(20px);
-    transition: all 0.4s;
-    max-height: 90vh;
-    overflow-y: auto;
+    transition: transform 0.4s;
   }
   .modal.active .modal-card { transform: scale(1) translateY(0); }
-
   .modal-title {
     font-family: 'Playfair Display', serif;
     color: var(--pink-soft);
-    font-size: 1.8rem;
-    margin-bottom: 1.5rem;
+    font-size: 1.7rem;
+    margin-bottom: 1.4rem;
     text-align: center;
   }
-
   .modal-img {
-    width: 100%;
-    max-height: 280px;
-    object-fit: cover;
+    width: 100%; max-height: 280px; object-fit: cover;
     background: #111;
-    border: 10px solid #fff;
-    border-bottom: 35px solid #fff;
+    border: 10px solid #fff; border-bottom: 35px solid #fff;
     border-radius: 2px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-    margin: 0 auto 1.8rem auto;
+    margin: 0 auto 1.6rem;
     display: block;
     transform: rotate(-2deg);
   }
-
   .modal-text {
-    font-size: 1.05rem;
-    line-height: 1.7;
+    font-size: 1.05rem; line-height: 1.7;
     color: var(--text-dim);
-    margin-bottom: 2rem;
-    text-align: center;
-    font-weight: 300;
+    margin-bottom: 1.8rem;
+    text-align: center; font-weight: 300;
   }
-
   .close-btn {
-    display: block;
-    width: 100%;
-    background: var(--pink-hot);
-    color: #fff;
-    border: none;
-    padding: 14px;
-    border-radius: 30px;
-    font-weight: bold;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    cursor: pointer;
+    display: block; width: 100%;
+    background: var(--pink-hot); color: #fff;
+    border: none; padding: 14px; border-radius: 30px;
+    font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    font-size: 0.85rem;
+    cursor: pointer; touch-action: manipulation;
   }
 
   /* ================= CARTA FINAL ================= */
   #final-letter {
     display: none;
-    max-width: 600px;
-    width: 100%;
-    padding: 3rem 2.5rem;
+    max-width: 600px; width: 100%;
+    padding: 2.5rem 1.8rem;
     margin-top: 1rem;
-    animation: slideUpFade 1.2s forwards;
   }
+  #final-letter.show { display: block; animation: slideUpFade 1.2s both; }
+  #final-letter h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.1rem; text-align: center; margin-bottom: 1.5rem;
+  }
+  #final-letter p { line-height: 1.8; color: var(--text-dim); text-align: justify; font-size: 1.05rem; }
 
   .video-container {
-    width: 100%;
-    border-radius: 16px;
-    overflow: hidden;
+    width: 100%; border-radius: 16px; overflow: hidden;
     border: 1px solid var(--glass-border);
     box-shadow: 0 15px 35px rgba(0,0,0,0.5), 0 0 20px rgba(255, 20, 147, 0.2);
-    position: relative;
-    aspect-ratio: 16 / 9;
-    margin: 2.5rem 0;
+    position: relative; aspect-ratio: 16 / 9;
+    margin: 2.2rem 0;
   }
-  .video-container iframe {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    border: none;
-  }
+  .video-container iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
 
-  /* ================= GALERÍA ================= */
   .gallery-heading {
-    text-align: center;
-    font-family: 'Lato', sans-serif;
-    font-size: 14px;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--pink-hot);
-    margin: 3rem 0 1.5rem;
-    font-weight: bold;
+    text-align: center; font-size: 13px; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--pink-hot);
+    margin: 2.5rem 0 1rem; font-weight: 700;
   }
-  
   .gallery-strip {
-    display: flex;
-    gap: 20px;
-    overflow-x: auto;
-    padding: 10px 10px 40px;
-    width: 100%;
+    display: flex; gap: 20px; overflow-x: auto;
+    padding: 10px 10px 36px;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; 
+    scrollbar-width: none;
   }
   .gallery-strip::-webkit-scrollbar { display: none; }
-  
   .polaroid {
-    flex: 0 0 auto;
-    scroll-snap-align: center;
-    width: 160px;
-    background: #fff;
-    padding: 12px 12px 24px;
-    border-radius: 2px;
+    flex: 0 0 auto; scroll-snap-align: center;
+    width: 160px; background: #fff;
+    padding: 12px 12px 24px; border-radius: 2px;
     box-shadow: 0 15px 25px rgba(0,0,0,0.5);
     transform: rotate(var(--tilt, 0deg));
   }
-  .polaroid img {
-    width: 100%;
-    height: 170px;
-    object-fit: cover;
-    background: #222;
-  }
+  .polaroid img { width: 100%; height: 170px; object-fit: cover; background: #222; display: block; }
   .polaroid span {
-    display: block;
-    text-align: center;
-    font-family: 'Great Vibes', cursive;
-    font-size: 20px;
-    color: #111;
-    margin-top: 12px;
+    display: block; text-align: center;
+    font-family: 'Great Vibes', cursive; font-size: 20px; color: #111; margin-top: 12px;
   }
-
   .signature {
     font-family: 'Great Vibes', cursive;
-    font-size: 3rem;
-    color: var(--pink-soft);
-    text-align: center;
-    margin-top: 3rem;
+    font-size: 2.6rem; color: var(--pink-soft);
+    text-align: center; margin-top: 2.5rem;
     text-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
+  }
+
+  .confetti {
+    position: fixed; top: -20px; z-index: 30; pointer-events: none;
+    animation: confettiFall linear forwards;
+  }
+  @keyframes confettiFall {
+    to { transform: translateY(110vh) rotate(720deg); opacity: 0.8; }
   }
 </style>
 </head>
-<body>
+<body class="locked">
 
 <div class="universe" id="universe"></div>
 
-<!-- ================= PANTALLA DE ACCESO ================= -->
+<!-- ================= ACCESO ================= -->
 <section id="lock-screen">
   <div class="lock-card glass-panel">
     <span class="lock-icon">💖</span>
     <h2 class="lock-title">Acceso Privado</h2>
     <p class="lock-subtitle">Ingresa nuestra fecha de pololeo para revelar tu sorpresa (DDMMAA)</p>
-    
-    <!-- Botón directo, sin form, 100% infalible -->
-    <input type="password" id="passInput" class="pass-input" placeholder="••••••" maxlength="6" inputmode="numeric">
-    <button id="passBtn" class="pass-btn" onclick="desbloquear()">DESBLOQUEAR</button>
-    
+
+    <div class="dots" id="dots">
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    </div>
+
+    <div class="keypad" id="keypad">
+      <button type="button" class="key" data-k="1">1</button>
+      <button type="button" class="key" data-k="2">2</button>
+      <button type="button" class="key" data-k="3">3</button>
+      <button type="button" class="key" data-k="4">4</button>
+      <button type="button" class="key" data-k="5">5</button>
+      <button type="button" class="key" data-k="6">6</button>
+      <button type="button" class="key" data-k="7">7</button>
+      <button type="button" class="key" data-k="8">8</button>
+      <button type="button" class="key" data-k="9">9</button>
+      <button type="button" class="key empty" tabindex="-1" aria-hidden="true">0</button>
+      <button type="button" class="key" data-k="0">0</button>
+      <button type="button" class="key ghost" data-k="del" aria-label="Borrar">⌫</button>
+    </div>
+
     <p id="errorMsg" class="error-msg">Clave incorrecta. Inténtalo de nuevo, mi amor.</p>
   </div>
 </section>
 
-<!-- ================= CONTENIDO PRINCIPAL ================= -->
+<!-- ================= CONTENIDO ================= -->
 <section id="main-content">
   <h1 class="title">11 Meses con <span class="highlight">Camilita</span></h1>
   <p class="subtitle">Nuestra Constelación de Amor</p>
-  
-  <div class="counter" id="counterText">Descubre las 11 estrellas (0/11)</div>
 
-  <!-- Rejilla de 11 estrellas -->
+  <div class="counter" id="counterText">Descubre las 11 estrellas (0/11)</div>
+  <div class="progress"><div id="progressBar"></div></div>
+
   <div class="stars-grid" id="starsGrid"></div>
 
-  <!-- Carta Final desbloqueable -->
   <div id="final-letter" class="glass-panel">
-    <h2 style="font-family:'Playfair Display', serif; color: var(--text-light); font-size: 2.2rem; text-align: center; margin-bottom: 1.5rem;">
-      Felices casi 11 Meses
-    </h2>
-    <p style="line-height: 1.8; color: var(--text-dim); text-align: justify; font-size: 1.05rem;">
+    <h2>Felices casi 11 Meses</h2>
+    <p>
       El tiempo a tu lado vuela de una forma increíble. Me parece un sueño que ya estemos a punto de cumplir 11 meses juntos. Han sido los meses más maravillosos de mi vida, llenos de risas, aprendizajes, apoyo mutuo y momentos que guardo en lo más profundo de mi corazón.
     </p>
 
     <div class="video-container">
-      <iframe 
-        src="https://drive.google.com/file/d/1l0aTRFf7bZmHFAIo-zCsau59_V1hQcpc/preview" 
-        allow="autoplay">
+      <iframe
+        src="https://drive.google.com/file/d/1l0aTRFf7bZmHFAIo-zCsau59_V1hQcpc/preview"
+        allow="autoplay; fullscreen" allowfullscreen loading="lazy">
       </iframe>
     </div>
 
     <h3 class="gallery-heading">Nuestros Momentos Hermosos</h3>
     <div class="gallery-strip">
-      <div class="polaroid" style="--tilt: -4deg;">
-        <img src="foto1.jpeg" alt="Recuerdo 1">
-        <span>Mi favorita</span>
-      </div>
-      <div class="polaroid" style="--tilt: 3deg;">
-        <img src="foto2.jpeg" alt="Recuerdo 2">
-        <span>Tú y yo</span>
-      </div>
-      <div class="polaroid" style="--tilt: -2deg;">
-        <img src="foto3.jpeg" alt="Recuerdo 3">
-        <span>Perfectos</span>
-      </div>
-      <div class="polaroid" style="--tilt: 5deg;">
-        <img src="foto4.jpeg" alt="Recuerdo 4">
-        <span>Siempre juntos</span>
-      </div>
-      <div class="polaroid" style="--tilt: -3deg;">
-        <img src="foto5.jpeg" alt="Recuerdo 5">
-        <span>Te amo</span>
-      </div>
-      <div class="polaroid" style="--tilt: 4deg;">
-        <img src="foto6.jpeg" alt="Recuerdo 6">
-        <span>Mi vida</span>
-      </div>
-      <div class="polaroid" style="--tilt: -5deg;">
-        <img src="foto7.jpeg" alt="Recuerdo 7">
-        <span>Para siempre</span>
-      </div>
+      <div class="polaroid" style="--tilt: -4deg;"><img src="foto1.jpeg" alt="Recuerdo 1"><span>Mi favorita</span></div>
+      <div class="polaroid" style="--tilt: 3deg;"><img src="foto2.jpeg" alt="Recuerdo 2"><span>Tú y yo</span></div>
+      <div class="polaroid" style="--tilt: -2deg;"><img src="foto3.jpeg" alt="Recuerdo 3"><span>Perfectos</span></div>
+      <div class="polaroid" style="--tilt: 5deg;"><img src="foto4.jpeg" alt="Recuerdo 4"><span>Siempre juntos</span></div>
+      <div class="polaroid" style="--tilt: -3deg;"><img src="foto5.jpeg" alt="Recuerdo 5"><span>Te amo</span></div>
+      <div class="polaroid" style="--tilt: 4deg;"><img src="foto6.jpeg" alt="Recuerdo 6"><span>Mi vida</span></div>
+      <div class="polaroid" style="--tilt: -5deg;"><img src="foto7.jpeg" alt="Recuerdo 7"><span>Para siempre</span></div>
     </div>
 
-    <p style="line-height: 1.8; color: var(--text-dim); text-align: justify; font-size: 1.05rem; margin-top: 1rem;">
+    <p style="margin-top: 1rem;">
       Gracias por hacer que cada día sea hermoso solo con tu presencia, por tus abrazos sinceros y por caminar de mi mano en todo momento. Vamos por nuestro primer año y por muchísimos meses más de esta linda historia juntos.
     </p>
     <div class="signature">Te amo con todo mi corazón</div>
@@ -544,92 +481,111 @@
 <!-- ================= MODAL ================= -->
 <div class="modal" id="modal">
   <div class="modal-card glass-panel">
-    <h3 class="modal-title" id="modalTitle">Mes 1</h3>
-    <img id="modalImg" class="modal-img" src="" alt="Foto del recuerdo" style="display: none;">
-    <p class="modal-text" id="modalText">Texto del recuerdo aquí...</p>
-    <button class="close-btn" id="modalClose">Guardar recuerdo en el corazón</button>
+    <h3 class="modal-title" id="modalTitle"></h3>
+    <img id="modalImg" class="modal-img" src="" alt="Foto del recuerdo" style="display:none;">
+    <p class="modal-text" id="modalText"></p>
+    <button type="button" class="close-btn" id="modalClose">Guardar recuerdo en el corazón</button>
   </div>
 </div>
 
 <script>
-  // 1. Lógica infalible de desbloqueo
-  function desbloquear() {
-    var input = document.getElementById('passInput');
-    var errorMsg = document.getElementById('errorMsg');
-    var lockScreen = document.getElementById('lock-screen');
-    var mainContent = document.getElementById('main-content');
-    
-    // Si la clave es 291125
-    if (input.value.trim() === "291125") {
-      errorMsg.style.display = 'none';
-      lockScreen.style.display = 'none'; // Desaparece inmediatamente
-      mainContent.classList.add('show'); // Muestra la constelación
-      startHearts();                     // Inicia los corazones
-    } else {
-      errorMsg.style.display = 'block';
-      input.value = '';
+(function () {
+  'use strict';
+
+  var CODE = '291125';
+  var entered = '';
+  var isUnlocked = false;
+
+  var dotsWrap = document.getElementById('dots');
+  var dots = dotsWrap.querySelectorAll('.dot');
+  var errorMsg = document.getElementById('errorMsg');
+  var lockScreen = document.getElementById('lock-screen');
+  var mainContent = document.getElementById('main-content');
+
+  /* ---------- Fondo de estrellas ---------- */
+  var universe = document.getElementById('universe');
+  for (var i = 0; i < 60; i++) {
+    var s = document.createElement('div');
+    var size = Math.random() * 3 + 1;
+    s.className = 'bg-star';
+    s.style.width = size + 'px';
+    s.style.height = size + 'px';
+    s.style.left = (Math.random() * 100) + '%';
+    s.style.top = (Math.random() * 100) + '%';
+    s.style.setProperty('--duration', (Math.random() * 4 + 2) + 's');
+    universe.appendChild(s);
+  }
+
+  /* ---------- Clave ---------- */
+  function paintDots() {
+    for (var i = 0; i < dots.length; i++) {
+      if (i < entered.length) dots[i].classList.add('filled');
+      else dots[i].classList.remove('filled');
     }
   }
 
-  // Permite desbloquear apretando "Ir" o "Enter" en el teclado del celular
-  document.getElementById('passInput').addEventListener('keyup', function(e) {
-    if (e.key === 'Enter') {
-      desbloquear();
+  function wrong() {
+    errorMsg.classList.add('show');
+    dotsWrap.classList.remove('shake');
+    void dotsWrap.offsetWidth;
+    dotsWrap.classList.add('shake');
+    if (navigator.vibrate) { try { navigator.vibrate(120); } catch (e) {} }
+    setTimeout(function () {
+      entered = '';
+      paintDots();
+    }, 450);
+  }
+
+  function unlock() {
+    if (isUnlocked) return;
+    isUnlocked = true;
+    errorMsg.classList.remove('show');
+    lockScreen.classList.add('leaving');
+    setTimeout(function () {
+      lockScreen.style.display = 'none';
+      document.body.classList.remove('locked');
+      mainContent.classList.add('show');
+      window.scrollTo(0, 0);
+      startHearts();
+    }, 650);
+  }
+
+  function press(k) {
+    if (isUnlocked) return;
+    errorMsg.classList.remove('show');
+    if (k === 'del') {
+      entered = entered.slice(0, -1);
+    } else if (entered.length < CODE.length) {
+      entered += k;
     }
+    paintDots();
+    if (entered.length === CODE.length) {
+      if (entered === CODE) { unlock(); } else { wrong(); }
+    }
+  }
+
+  document.getElementById('keypad').addEventListener('click', function (e) {
+    var btn = e.target.closest ? e.target.closest('.key') : null;
+    if (!btn) return;
+    var k = btn.getAttribute('data-k');
+    if (k !== null) press(k);
   });
 
-  // 2. Textos e Imágenes
-  const memories = [
-    { title: "Mes 1: El Comienzo ✨", text: "El 29 de noviembre cambió todo mi mundo. Recordar nuestros primeros momentos, los nervios y esa sonrisa tuya que supo que se quedaría con mi corazón.", img: "foto1.jpeg" },
-    { title: "Mes 2: Primeras Risas 💖", text: "Fuimos descubriendo lo lindo que es estar juntos. Me di cuenta de que no quería dejar de escucharte reír nunca.", img: "foto2.jpeg" },
-    { title: "Mes 3: Más Cerca 🌹", text: "Nuestros paseos y pláticas sinceras donde nos fuimos conociendo de verdad. Cada detalle me confirmaba que estaba en el lugar correcto.", img: "foto3.jpeg" },
-    { title: "Mes 4: Inolvidables 📸", text: "Comenzamos a construir recuerdos únicos, guardando en el alma cada abrazo, cada caricia y cada te amo.", img: "foto4.jpeg" },
-    { title: "Mes 5: Cómplices 💫", text: "Aprender a ser un verdadero equipo en todo. Descubrir que contigo la vida es mucho más bonita.", img: "foto5.jpeg" },
-    { title: "Mes 6: Medio Año 🎉", text: "Llegar a los 6 meses fue confirmar que lo nuestro era el inicio de una historia profunda y de amor verdadero.", img: "foto6.jpeg" },
-    { title: "Mes 7: Mi Hogar 🏡", text: "Comprendí que mi hogar no es un lugar físico, sino cualquier sitio donde tú estés. Tu abrazo se volvió mi paz.", img: "foto7.jpeg" },
-    { title: "Mes 8: Detalles 💌", text: "Ocho meses sumando miradas y gestos que me recuerdan a diario la maravillosa mujer que tengo a mi lado.", img: null },
-    { title: "Mes 9: Creciendo 📖", text: "Superando cada etapa de la mano, aprendiendo con madurez y cariño. Sabiendo que unidos vencemos todo.", img: null },
-    { title: "Mes 10: Alegría 🎁", text: "Celebrar 10 meses nos demostró lo rápido que pasa el tiempo cuando se es feliz. Gracias por regalarme tanta luz.", img: null },
-    { title: "Mes 11: A un Paso 🔥", text: "Ya son 11 meses, mi Camilita hermosa. Estamos a nada de cumplir nuestro primer año y mi amor por ti es más fuerte que nunca.", img: null }
-  ];
+  // Teclado físico (por si la abre en computador)
+  document.addEventListener('keydown', function (e) {
+    if (isUnlocked) return;
+    if (e.key >= '0' && e.key <= '9') press(e.key);
+    else if (e.key === 'Backspace') press('del');
+  });
 
-  // 3. Universo Estático
-  const universe = document.getElementById('universe');
-  for (let i = 0; i < 60; i++) {
-    const star = document.createElement('div');
-    star.className = 'bg-star';
-    star.style.width = Math.random() * 3 + 'px';
-    star.style.height = star.style.width;
-    star.style.left = Math.random() * 100 + 'vw';
-    star.style.top = Math.random() * 100 + 'vh';
-    star.style.setProperty('--duration', (Math.random() * 4 + 2) + 's');
-    universe.appendChild(star);
-  }
-
-  // 4. Corazones Dinámicos
+  /* ---------- Corazones ---------- */
   function startHearts() {
-    setInterval(() => {
-      const heart = document.createElement('div');
-      heart.innerHTML = '❤️';
-      heart.className = 'floating-heart';
-      heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.animationDuration = (Math.random() * 4 + 6) + 's';
-      heart.style.fontSize = (Math.random() * 1 + 0.8) + 'rem';
-      document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 10000);
-    }, 1200);
-  }
-
-  // 5. Renderizar Estrellas
-  const grid = document.getElementById('starsGrid');
-  const unlocked = new Set();
-  const counterText = document.getElementById('counterText');
-
-  memories.forEach((mem, index) => {
-    const btn = document.createElement('button');
-    btn.className = 'star-btn';
-    btn.innerHTML = `
-      <div class="star-icon">⭐</div>
-      <span class="star-label">Mes ${index + 1}</span>
-    `;
-    btn.addEventListener('click', () => ope
+    setInterval(function () {
+      var h = document.createElement('div');
+      h.textContent = '❤️';
+      h.className = 'floating-heart';
+      h.style.left = (Math.random() * 100) + 'vw';
+      h.style.animationDuration = (Math.random() * 4 + 6) + 's';
+      h.style.fontSize = (Math.random() + 0.8) + 'rem';
+      document.body.appendChild(h);
+      setTimeout(function () { h.
