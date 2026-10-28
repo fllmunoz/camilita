@@ -92,12 +92,6 @@
     justify-content: center;
     padding: 2rem;
     text-align: center;
-    transition: opacity 0.6s ease, transform 0.6s ease;
-  }
-  #lock-screen.hide {
-    opacity: 0;
-    transform: scale(1.05);
-    pointer-events: none;
   }
 
   .lock-card { padding: 3rem 2rem; max-width: 400px; width: 100%; }
@@ -130,9 +124,6 @@
     margin-bottom: 2rem;
     line-height: 1.5;
   }
-
-  /* Formulario y Botón */
-  .auth-form { width: 100%; display: flex; flex-direction: column; align-items: center; }
 
   .pass-input {
     width: 100%;
@@ -169,9 +160,9 @@
     box-shadow: 0 5px 15px rgba(255, 20, 147, 0.4);
     transition: all 0.3s ease;
   }
-  .pass-btn:active, .pass-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(255, 20, 147, 0.6);
+  .pass-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 10px rgba(255, 20, 147, 0.6);
   }
 
   .error-msg {
@@ -270,9 +261,8 @@
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: transform 0.4s;
   }
-  .star-btn:active, .star-btn:hover { transform: scale(1.15); }
 
   .star-icon {
     width: 60px;
@@ -305,7 +295,6 @@
     font-size: 13px;
     color: var(--text-dim);
     font-weight: 600;
-    transition: color 0.3s;
   }
   .star-btn.unlocked .star-label { color: var(--gold-glow); }
 
@@ -331,13 +320,11 @@
     max-width: 420px;
     width: 100%;
     transform: scale(0.9) translateY(20px);
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.4s;
     max-height: 90vh;
     overflow-y: auto;
   }
   .modal.active .modal-card { transform: scale(1) translateY(0); }
-  .modal-card::-webkit-scrollbar { width: 4px; }
-  .modal-card::-webkit-scrollbar-thumb { background: var(--pink-hot); border-radius: 4px; }
 
   .modal-title {
     font-family: 'Playfair Display', serif;
@@ -373,18 +360,16 @@
   .close-btn {
     display: block;
     width: 100%;
-    background: transparent;
-    color: var(--pink-soft);
-    border: 1px solid var(--pink-hot);
-    padding: 12px;
+    background: var(--pink-hot);
+    color: #fff;
+    border: none;
+    padding: 14px;
     border-radius: 30px;
     font-weight: bold;
     letter-spacing: 1px;
     text-transform: uppercase;
     cursor: pointer;
-    transition: all 0.3s;
   }
-  .close-btn:active { background: var(--pink-hot); color: #fff; }
 
   /* ================= CARTA FINAL ================= */
   #final-letter {
@@ -483,11 +468,9 @@
     <h2 class="lock-title">Acceso Privado</h2>
     <p class="lock-subtitle">Ingresa nuestra fecha de pololeo para revelar tu sorpresa (DDMMAA)</p>
     
-    <!-- Se reemplaza por un <form> para compatibilidad total móvil -->
-    <form class="auth-form" onsubmit="checkPassword(event)">
-      <input type="password" id="passInput" class="pass-input" placeholder="••••••" maxlength="6" inputmode="numeric">
-      <button type="submit" id="passBtn" class="pass-btn">DESBLOQUEAR</button>
-    </form>
+    <!-- Botón directo, sin form, 100% infalible -->
+    <input type="password" id="passInput" class="pass-input" placeholder="••••••" maxlength="6" inputmode="numeric">
+    <button id="passBtn" class="pass-btn" onclick="desbloquear()">DESBLOQUEAR</button>
     
     <p id="errorMsg" class="error-msg">Clave incorrecta. Inténtalo de nuevo, mi amor.</p>
   </div>
@@ -569,33 +552,31 @@
 </div>
 
 <script>
-  // 1. Clave y Lógica de Acceso optimizada para Móvil
-  function checkPassword(event) {
-    if (event) event.preventDefault(); // Evita que la página recargue al tocar el botón
+  // 1. Lógica infalible de desbloqueo
+  function desbloquear() {
+    var input = document.getElementById('passInput');
+    var errorMsg = document.getElementById('errorMsg');
+    var lockScreen = document.getElementById('lock-screen');
+    var mainContent = document.getElementById('main-content');
     
-    const passInput = document.getElementById('passInput');
-    const errorMsg = document.getElementById('errorMsg');
-    const lockScreen = document.getElementById('lock-screen');
-    const mainContent = document.getElementById('main-content');
-    
-    const SECRET_CODE = "291125"; // CLAVE CORRECTA
-
-    if (passInput.value.trim() === SECRET_CODE) {
+    // Si la clave es 291125
+    if (input.value.trim() === "291125") {
       errorMsg.style.display = 'none';
-      passInput.blur(); // Oculta el teclado en móviles
-      lockScreen.classList.add('hide');
-
-      setTimeout(() => {
-        lockScreen.style.display = 'none';
-        mainContent.classList.add('show');
-        startHearts(); 
-      }, 500); 
+      lockScreen.style.display = 'none'; // Desaparece inmediatamente
+      mainContent.classList.add('show'); // Muestra la constelación
+      startHearts();                     // Inicia los corazones
     } else {
       errorMsg.style.display = 'block';
-      passInput.value = '';
-      passInput.focus();
+      input.value = '';
     }
   }
+
+  // Permite desbloquear apretando "Ir" o "Enter" en el teclado del celular
+  document.getElementById('passInput').addEventListener('keyup', function(e) {
+    if (e.key === 'Enter') {
+      desbloquear();
+    }
+  });
 
   // 2. Textos e Imágenes
   const memories = [
@@ -629,4 +610,26 @@
   function startHearts() {
     setInterval(() => {
       const heart = document.createElement('div');
-      he
+      heart.innerHTML = '❤️';
+      heart.className = 'floating-heart';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = (Math.random() * 4 + 6) + 's';
+      heart.style.fontSize = (Math.random() * 1 + 0.8) + 'rem';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 10000);
+    }, 1200);
+  }
+
+  // 5. Renderizar Estrellas
+  const grid = document.getElementById('starsGrid');
+  const unlocked = new Set();
+  const counterText = document.getElementById('counterText');
+
+  memories.forEach((mem, index) => {
+    const btn = document.createElement('button');
+    btn.className = 'star-btn';
+    btn.innerHTML = `
+      <div class="star-icon">⭐</div>
+      <span class="star-label">Mes ${index + 1}</span>
+    `;
+    btn.addEventListener('click', () => ope
