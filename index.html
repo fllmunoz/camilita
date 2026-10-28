@@ -9,15 +9,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,400&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Great+Vibes&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg-base: #060205;
-    --pink-soft: #ffb6c1;
+    --bg-base: #040103;
+    --bg-surface: #1a0b12;
+    --pink-soft: #ffd1dc;
     --pink-mid: #ff69b4;
     --pink-hot: #ff1493;
     --pink-neon: #ff007f;
+    --gold-glow: #ffb84d;
     --text-light: #ffffff;
     --text-dim: #f0cdda;
-    --glass-bg: rgba(20, 8, 15, 0.9);
-    --glass-border: rgba(255, 105, 180, 0.35);
+    --glass-bg: rgba(26, 9, 18, 0.75);
+    --glass-border: rgba(255, 105, 180, 0.3);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -27,26 +29,56 @@
     background: var(--bg-base);
     font-family: 'Lato', sans-serif;
     color: var(--text-light);
+    -webkit-tap-highlight-color: transparent;
   }
 
-  /* Fondo de Universo Estrellado */
+  /* ================= FONDOS (ESTRELLAS Y CORAZONES) ================= */
   .universe {
     position: fixed;
     inset: 0;
     z-index: 0;
-    background: radial-gradient(circle at center, #1a0814 0%, #060205 100%);
+    background: radial-gradient(circle at top right, rgba(255, 20, 147, 0.15), transparent 60%),
+                radial-gradient(circle at bottom left, rgba(128, 0, 128, 0.15), transparent 60%),
+                var(--bg-base);
   }
 
   .bg-star {
     position: absolute;
-    background: white;
+    background: #fff;
     border-radius: 50%;
     opacity: 0.5;
     animation: twinkle var(--duration, 3s) infinite ease-in-out;
   }
   @keyframes twinkle {
-    0%, 100% { opacity: 0.2; transform: scale(0.8); }
-    50% { opacity: 0.9; transform: scale(1.2); }
+    0%, 100% { opacity: 0.1; transform: scale(0.7); box-shadow: 0 0 2px #fff; }
+    50% { opacity: 0.9; transform: scale(1.3); box-shadow: 0 0 8px var(--pink-soft); }
+  }
+
+  .floating-heart {
+    position: fixed;
+    bottom: -10vh;
+    font-size: 1.2rem;
+    opacity: 0;
+    z-index: 1;
+    pointer-events: none;
+    animation: floatUp linear forwards;
+    filter: drop-shadow(0 0 5px var(--pink-hot));
+  }
+  @keyframes floatUp {
+    0% { transform: translateY(0) scale(0.8) rotate(0deg); opacity: 0; }
+    20% { opacity: 0.5; }
+    80% { opacity: 0.5; }
+    100% { transform: translateY(-110vh) scale(1.2) rotate(20deg); opacity: 0; }
+  }
+
+  /* ================= EFECTO CRISTAL (GLASSMORPHISM) ================= */
+  .glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.5), inset 0 0 20px rgba(255, 105, 180, 0.05);
   }
 
   /* ================= PANTALLA DE CONTRASEÑA ================= */
@@ -61,165 +93,181 @@
     justify-content: center;
     padding: 2rem;
     text-align: center;
-    transition: opacity 0.8s ease, visibility 0.8s;
+    transition: opacity 0.8s ease, transform 0.8s ease;
   }
 
   #lock-screen.hide {
     opacity: 0;
-    visibility: hidden;
+    transform: scale(1.05);
     pointer-events: none;
-    position: absolute;
   }
 
   .lock-card {
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    border-radius: 24px;
-    padding: 2.5rem 2rem;
+    padding: 3rem 2rem;
     max-width: 400px;
     width: 100%;
-    box-shadow: 0 0 35px rgba(255, 20, 147, 0.25);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
   }
 
   .lock-icon {
-    font-size: 3rem;
+    font-size: 3.5rem;
     margin-bottom: 1rem;
     display: block;
-    animation: pulse 2s infinite ease-in-out;
+    animation: heartbeat 1.5s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
+    filter: drop-shadow(0 0 15px rgba(255, 20, 147, 0.5));
   }
-  @keyframes pulse {
+  @keyframes heartbeat {
     0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
+    15% { transform: scale(1.15); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.15); }
   }
 
   .lock-title {
     font-family: 'Playfair Display', serif;
-    font-size: 1.8rem;
+    font-size: 2rem;
     color: var(--pink-soft);
     margin-bottom: 0.5rem;
+    letter-spacing: 1px;
   }
 
   .lock-subtitle {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: var(--text-dim);
-    margin-bottom: 1.8rem;
-    line-height: 1.4;
+    margin-bottom: 2rem;
+    line-height: 1.5;
   }
 
   .pass-input {
     width: 100%;
-    padding: 14px 20px;
+    padding: 16px 20px;
     border-radius: 30px;
-    border: 1px solid var(--pink-hot);
-    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(255, 105, 180, 0.5);
+    background: rgba(0,0,0,0.6);
     color: #fff;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     text-align: center;
-    letter-spacing: 0.3em;
+    letter-spacing: 0.4em;
     outline: none;
-    margin-bottom: 1rem;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
   }
 
   .pass-input:focus {
     border-color: var(--pink-neon);
-    box-shadow: 0 0 15px rgba(255, 0, 127, 0.5);
+    background: rgba(0,0,0,0.8);
+    box-shadow: 0 0 20px rgba(255, 0, 127, 0.4), inset 0 2px 5px rgba(0,0,0,0.5);
   }
 
   .pass-btn {
     width: 100%;
-    padding: 12px;
+    padding: 14px;
     border-radius: 30px;
     border: none;
-    background: var(--pink-hot);
+    background: linear-gradient(135deg, var(--pink-hot) 0%, var(--pink-neon) 100%);
     color: #fff;
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: bold;
     letter-spacing: 0.1em;
     cursor: pointer;
-    box-shadow: 0 0 15px rgba(255, 20, 147, 0.4);
-    transition: transform 0.2s ease, background 0.3s ease;
+    box-shadow: 0 5px 15px rgba(255, 20, 147, 0.4);
+    transition: all 0.3s ease;
   }
 
   .pass-btn:hover {
-    background: var(--pink-neon);
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 20, 147, 0.6);
   }
 
   .error-msg {
     color: #ff4d6d;
-    font-size: 0.85rem;
-    margin-top: 1rem;
+    font-size: 0.9rem;
+    margin-top: 1.2rem;
     display: none;
     animation: shake 0.4s ease;
+    font-weight: 600;
   }
 
   @keyframes shake {
     0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-6px); }
-    75% { transform: translateX(6px); }
+    25% { transform: translateX(-8px); }
+    75% { transform: translateX(8px); }
   }
 
-  /* ================= PANTALLA PRINCIPAL (CONSTELACIÓN) ================= */
+  /* ================= PANTALLA PRINCIPAL ================= */
   #main-content {
-    position: relative;
+    position: absolute;
+    top: 0; left: 0; right: 0;
     z-index: 2;
     min-height: 100vh;
     display: none;
     flex-direction: column;
     align-items: center;
-    padding: 2rem 1rem 5rem;
+    padding: 3rem 1.5rem 6rem;
     text-align: center;
   }
 
   #main-content.show {
     display: flex;
-    animation: fadeIn 1.2s forwards;
+    animation: slideUpFade 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  @keyframes slideUpFade {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   .title {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(1.8rem, 5vw, 2.8rem);
-    margin-top: 1rem;
+    font-size: clamp(2rem, 6vw, 3.2rem);
     color: var(--text-light);
-    text-shadow: 0 0 15px rgba(255, 20, 147, 0.5);
+    text-shadow: 0 0 20px rgba(255, 20, 147, 0.6);
+    line-height: 1.2;
   }
 
   .title .highlight {
     font-family: 'Great Vibes', cursive;
-    color: var(--pink-neon);
-    font-size: 1.4em;
+    color: var(--pink-soft);
+    font-size: 1.5em;
+    display: block;
+    margin-top: -5px;
   }
 
   .subtitle {
-    font-size: 0.95rem;
-    letter-spacing: 0.15em;
+    font-size: 0.9rem;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--pink-soft);
-    margin-top: 0.5rem;
-    margin-bottom: 1.8rem;
+    color: var(--pink-hot);
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    font-weight: bold;
   }
 
   .counter {
-    font-size: 0.9rem;
-    background: rgba(255, 105, 180, 0.15);
+    font-size: 0.95rem;
+    background: rgba(255, 20, 147, 0.15);
     border: 1px solid var(--pink-hot);
-    padding: 6px 18px;
-    border-radius: 20px;
-    margin-bottom: 2rem;
+    padding: 8px 24px;
+    border-radius: 30px;
+    margin-bottom: 3rem;
     color: var(--pink-soft);
+    box-shadow: 0 0 15px rgba(255,20,147,0.2);
+    transition: all 0.4s ease;
+  }
+  .counter.complete {
+    background: rgba(255, 184, 77, 0.2);
+    border-color: var(--gold-glow);
+    color: var(--gold-glow);
+    box-shadow: 0 0 20px rgba(255, 184, 77, 0.4);
   }
 
-  /* Rejilla de 11 Estrellas */
+  /* ================= ESTRELLAS INTERACTIVAS ================= */
   .stars-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-    gap: 20px;
-    max-width: 500px;
+    grid-template-columns: repeat(auto-fit, minmax(85px, 1fr));
+    gap: 25px;
+    max-width: 550px;
     width: 100%;
-    margin-bottom: 2.5rem;
+    margin-bottom: 3rem;
   }
 
   .star-btn {
@@ -229,134 +277,240 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
-    transition: transform 0.3s ease;
+    gap: 10px;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
-  .star-btn:hover { transform: scale(1.15); }
+  .star-btn:hover { transform: scale(1.2); }
 
   .star-icon {
-    width: 55px;
-    height: 55px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
-    background: rgba(255, 20, 147, 0.15);
-    border: 2px solid var(--pink-hot);
+    background: rgba(20, 5, 15, 0.8);
+    border: 2px solid rgba(255, 105, 180, 0.4);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 22px;
-    box-shadow: 0 0 15px rgba(255, 20, 147, 0.3);
-    transition: all 0.4s ease;
+    font-size: 24px;
+    box-shadow: 0 0 15px rgba(255, 20, 147, 0.2);
+    transition: all 0.5s ease;
+    animation: starPulse 2s infinite alternate;
+  }
+  @keyframes starPulse {
+    from { box-shadow: 0 0 10px rgba(255, 20, 147, 0.2); border-color: rgba(255,105,180,0.4); }
+    to { box-shadow: 0 0 25px rgba(255, 20, 147, 0.6); border-color: rgba(255,105,180,1); }
   }
 
   .star-btn.unlocked .star-icon {
-    background: var(--pink-hot);
-    box-shadow: 0 0 25px var(--pink-neon);
+    animation: none;
+    background: linear-gradient(135deg, var(--pink-hot), var(--gold-glow));
+    border-color: #fff;
+    box-shadow: 0 0 30px var(--gold-glow);
+    transform: rotate(360deg);
   }
 
   .star-label {
-    font-size: 12px;
-    color: var(--pink-soft);
-    font-weight: bold;
+    font-size: 13px;
+    color: var(--text-dim);
+    font-weight: 600;
+    transition: color 0.3s;
   }
+  .star-btn.unlocked .star-label { color: var(--gold-glow); }
 
-  /* Modal Emergente */
+  /* ================= MODAL DE RECUERDOS ================= */
   .modal {
     position: fixed;
     inset: 0;
-    z-index: 10;
+    z-index: 20;
     background: rgba(0,0,0,0.85);
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(10px);
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 1.5rem;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.4s ease;
+    transition: opacity 0.5s ease;
   }
   .modal.active { opacity: 1; pointer-events: auto; }
 
   .modal-card {
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    border-radius: 20px;
-    padding: 2rem 1.5rem;
-    max-width: 400px;
+    padding: 2.5rem 2rem;
+    max-width: 420px;
     width: 100%;
-    box-shadow: 0 0 30px rgba(255, 0, 127, 0.3);
-    transform: translateY(20px);
-    transition: transform 0.4s ease;
+    transform: scale(0.9) translateY(20px);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    max-height: 90vh;
+    overflow-y: auto;
   }
-  .modal.active .modal-card { transform: translateY(0); }
+  .modal.active .modal-card { transform: scale(1) translateY(0); }
+  
+  .modal-card::-webkit-scrollbar { width: 4px; }
+  .modal-card::-webkit-scrollbar-thumb { background: var(--pink-hot); border-radius: 4px; }
 
   .modal-title {
     font-family: 'Playfair Display', serif;
-    color: var(--pink-neon);
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
+    color: var(--pink-soft);
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
   }
 
+  /* Estilo Polaroid Exclusivo para el Modal */
+  .modal-img {
+    width: 100%;
+    max-height: 280px;
+    object-fit: cover;
+    background: #111;
+    border: 10px solid #fff;
+    border-bottom: 35px solid #fff;
+    border-radius: 2px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    margin: 0 auto 1.8rem auto;
+    display: block;
+    transform: rotate(-2deg);
+    transition: transform 0.3s;
+  }
+  .modal-img:hover { transform: rotate(0deg) scale(1.02); }
+
   .modal-text {
-    font-size: 1rem;
-    line-height: 1.6;
+    font-size: 1.05rem;
+    line-height: 1.7;
     color: var(--text-dim);
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    font-weight: 300;
   }
 
   .close-btn {
-    background: var(--pink-hot);
-    color: white;
-    border: none;
-    padding: 10px 24px;
-    border-radius: 25px;
+    display: block;
+    width: 100%;
+    background: transparent;
+    color: var(--pink-soft);
+    border: 1px solid var(--pink-hot);
+    padding: 12px;
+    border-radius: 30px;
     font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
     cursor: pointer;
-    box-shadow: 0 0 15px rgba(255, 20, 147, 0.4);
+    transition: all 0.3s;
+  }
+  .close-btn:hover {
+    background: var(--pink-hot);
+    color: #fff;
+    box-shadow: 0 0 20px rgba(255, 20, 147, 0.4);
   }
 
-  /* Carta Final Desbloqueable */
+  /* ================= CARTA FINAL ================= */
   #final-letter {
     display: none;
-    max-width: 550px;
+    max-width: 600px;
     width: 100%;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    border-radius: 24px;
-    padding: 2.5rem 2rem;
-    box-shadow: 0 0 40px rgba(255, 20, 147, 0.3);
+    padding: 3rem 2.5rem;
     margin-top: 1rem;
-    animation: fadeIn 1s forwards;
+    animation: slideUpFade 1.2s forwards;
+  }
+
+  /* Contenedor del video a 16:9 */
+  .video-container {
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5), 0 0 20px rgba(255, 20, 147, 0.2);
+    position: relative;
+    aspect-ratio: 16 / 9;
+    margin: 2.5rem 0;
+  }
+  .video-container iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: none;
+  }
+
+  /* ================= GALERÍA POLAROID INFERIOR ================= */
+  .gallery-heading {
+    text-align: center;
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--pink-hot);
+    margin: 3rem 0 1.5rem;
+    font-weight: bold;
+  }
+  
+  .gallery-strip {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 10px 10px 40px;
+    width: 100%;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Oculta scrollbar en Firefox */
+  }
+  .gallery-strip::-webkit-scrollbar { display: none; } /* Oculta scrollbar en Chrome/Safari */
+  
+  .polaroid {
+    flex: 0 0 auto;
+    scroll-snap-align: center;
+    width: 160px;
+    background: #fff;
+    padding: 12px 12px 24px;
+    border-radius: 2px;
+    box-shadow: 0 15px 25px rgba(0,0,0,0.5);
+    transform: rotate(var(--tilt, 0deg));
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  .polaroid:hover { transform: scale(1.1) rotate(0deg); z-index: 10; box-shadow: 0 20px 40px rgba(255,20,147,0.4); }
+  
+  .polaroid img {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+    background: #222;
+  }
+  
+  .polaroid span {
+    display: block;
+    text-align: center;
+    font-family: 'Great Vibes', cursive;
+    font-size: 20px;
+    color: #111;
+    margin-top: 12px;
   }
 
   .signature {
     font-family: 'Great Vibes', cursive;
-    font-size: 2.5rem;
-    color: var(--pink-mid);
-    text-align: right;
-    margin-top: 1.5rem;
+    font-size: 3rem;
+    color: var(--pink-soft);
+    text-align: center;
+    margin-top: 3rem;
+    text-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
   }
 
-  /* Botón de audio flotante */
+  /* ================= BOTÓN DE AUDIO ================= */
   #music-toggle {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 15;
-    width: 45px; height: 45px;
+    bottom: 25px;
+    right: 25px;
+    z-index: 30;
+    width: 50px; height: 50px;
     border-radius: 50%;
-    background: rgba(20, 8, 15, 0.8);
+    background: var(--glass-bg);
+    backdrop-filter: blur(8px);
     border: 1px solid var(--pink-hot);
     color: var(--pink-soft);
     display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
+    font-size: 20px;
     cursor: pointer;
-    box-shadow: 0 0 15px rgba(255, 20, 147, 0.3);
+    box-shadow: 0 0 20px rgba(255, 20, 147, 0.3);
+    transition: all 0.3s;
   }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+  #music-toggle:hover { transform: scale(1.1); background: var(--pink-hot); color: #fff; }
 </style>
 </head>
 <body>
@@ -366,27 +520,27 @@
 </audio>
 
 <div class="universe" id="universe"></div>
+<!-- El contenedor de corazones se generará por JS -->
 
-<!-- Botón de música flotante -->
 <button id="music-toggle" title="Pausar/Reproducir Música">🎵</button>
 
-<!-- ================= PANTALLA DE ACCESO (CONTRASEÑA) ================= -->
+<!-- ================= PANTALLA DE ACCESO ================= -->
 <section id="lock-screen">
-  <div class="lock-card">
-    <span class="lock-icon">🔒</span>
+  <div class="lock-card glass-panel">
+    <span class="lock-icon">💖</span>
     <h2 class="lock-title">Acceso Privado</h2>
-    <p class="lock-subtitle">Ingresa nuestra fecha especial de pololeo para desbloquear tu sorpresa (DDMMAA)</p>
+    <p class="lock-subtitle">Ingresa nuestra fecha de pololeo para revelar tu sorpresa (DDMMAA)</p>
     
     <input type="password" id="passInput" class="pass-input" placeholder="••••••" maxlength="6" inputmode="numeric">
-    <button id="passBtn" class="pass-btn">DESBLOQUEAR ❤️</button>
-    <p id="errorMsg" class="error-msg">Clave incorrecta. Inténtalo de nuevo, mi amor 💕</p>
+    <button id="passBtn" class="pass-btn">DESBLOQUEAR</button>
+    <p id="errorMsg" class="error-msg">Clave incorrecta. Inténtalo de nuevo, mi amor.</p>
   </div>
 </section>
 
 <!-- ================= CONTENIDO PRINCIPAL ================= -->
 <section id="main-content">
   <h1 class="title">11 Meses con <span class="highlight">Camilita</span></h1>
-  <p class="subtitle">Nuestra Constelación de Amor ❤️</p>
+  <p class="subtitle">Nuestra Constelación de Amor</p>
   
   <div class="counter" id="counterText">Descubre las 11 estrellas (0/11)</div>
 
@@ -394,45 +548,73 @@
   <div class="stars-grid" id="starsGrid"></div>
 
   <!-- Carta Final desbloqueable -->
-  <div id="final-letter">
-    <h2 style="font-family:'Playfair Display', serif; color: var(--pink-soft); margin-bottom: 1rem;">
-      Felices 11 Meses, Mi Amor
+  <div id="final-letter" class="glass-panel">
+    <h2 style="font-family:'Playfair Display', serif; color: var(--text-light); font-size: 2.2rem; text-align: center; margin-bottom: 1.5rem;">
+      Felices casi 11 Meses
     </h2>
-    <p style="line-height: 1.7; color: var(--text-dim); text-align: left; margin-bottom: 1rem;">
-      Has descubierto cada una de las 11 estrellas que representan lo increíble que ha sido este viaje a tu lado. Cada mes ha traído momentos inolvidables y estamos a solo un paso de cumplir nuestro primer año juntos.
+    <p style="line-height: 1.8; color: var(--text-dim); text-align: justify; font-size: 1.05rem;">
+      El tiempo a tu lado vuela de una forma increíble. Me parece un sueño que ya estemos a punto de cumplir 11 meses juntos. Han sido los meses más maravillosos de mi vida, llenos de risas, aprendizajes, apoyo mutuo y momentos que guardo en lo más profundo de mi corazón.
     </p>
 
-    <!-- REPRODUCTOR DE VIDEO DE GOOGLE DRIVE -->
-    <div style="width: 100%; max-width: 450px; margin: 20px auto; border-radius: 16px; overflow: hidden; border: 1px solid var(--pink-hot); box-shadow: 0 0 20px rgba(255, 20, 147, 0.4);">
+    <div class="video-container">
       <iframe 
         src="https://drive.google.com/file/d/1l0aTRFf7bZmHFAIo-zCsau59_V1hQcpc/preview" 
-        width="100%" 
-        height="260" 
-        allow="autoplay"
-        style="border: none;">
+        allow="autoplay">
       </iframe>
     </div>
 
-    <p style="line-height: 1.7; color: var(--text-dim); text-align: left;">
-      Gracias por tus sonrisas, tu cariño incondicional y por hacer que cada día sea único. Te amo con todo mi corazón.
+    <h3 class="gallery-heading">Nuestros Momentos Hermosos</h3>
+    <div class="gallery-strip">
+      <div class="polaroid" style="--tilt: -4deg;">
+        <img src="foto1.jpeg" alt="Recuerdo 1">
+        <span>Mi favorita</span>
+      </div>
+      <div class="polaroid" style="--tilt: 3deg;">
+        <img src="foto2.jpeg" alt="Recuerdo 2">
+        <span>Tú y yo</span>
+      </div>
+      <div class="polaroid" style="--tilt: -2deg;">
+        <img src="foto3.jpeg" alt="Recuerdo 3">
+        <span>Perfectos</span>
+      </div>
+      <div class="polaroid" style="--tilt: 5deg;">
+        <img src="foto4.jpeg" alt="Recuerdo 4">
+        <span>Siempre juntos</span>
+      </div>
+      <div class="polaroid" style="--tilt: -3deg;">
+        <img src="foto5.jpeg" alt="Recuerdo 5">
+        <span>Te amo</span>
+      </div>
+      <div class="polaroid" style="--tilt: 4deg;">
+        <img src="foto6.jpeg" alt="Recuerdo 6">
+        <span>Mi vida</span>
+      </div>
+      <div class="polaroid" style="--tilt: -5deg;">
+        <img src="foto7.jpeg" alt="Recuerdo 7">
+        <span>Para siempre</span>
+      </div>
+    </div>
+
+    <p style="line-height: 1.8; color: var(--text-dim); text-align: justify; font-size: 1.05rem; margin-top: 1rem;">
+      Gracias por hacer que cada día sea hermoso solo con tu presencia, por tus abrazos sinceros y por caminar de mi mano en todo momento. Vamos por nuestro primer año y por muchísimos meses más de esta linda historia juntos.
     </p>
-    <div class="signature">Para siempre juntos ❤️</div>
+    <div class="signature">Te amo con todo mi corazón</div>
   </div>
 </section>
 
-<!-- Modal Ventana Emergente -->
+<!-- ================= MODAL ================= -->
 <div class="modal" id="modal">
-  <div class="modal-card">
+  <div class="modal-card glass-panel">
     <h3 class="modal-title" id="modalTitle">Mes 1</h3>
+    <img id="modalImg" class="modal-img" src="" alt="Foto del recuerdo" style="display: none;">
     <p class="modal-text" id="modalText">Texto del recuerdo aquí...</p>
-    <button class="close-btn" id="modalClose">Guardar recuerdo</button>
+    <button class="close-btn" id="modalClose">Guardar recuerdo en el corazón</button>
   </div>
 </div>
 
 <script>
-  // 1. Clave secreta
+  // 1. Clave y Lógica de Acceso
   const SECRET_CODE = "291125";
-
   const passInput = document.getElementById('passInput');
   const passBtn = document.getElementById('passBtn');
   const errorMsg = document.getElementById('errorMsg');
@@ -442,16 +624,14 @@
 
   function checkPassword() {
     if (passInput.value.trim() === SECRET_CODE) {
-      // Ocultar pantalla de contraseña y mostrar el contenido
       lockScreen.classList.add('hide');
-      
-      // Iniciar música tras interacción
       bgMusic.play().catch(() => {});
 
       setTimeout(() => {
         lockScreen.style.display = 'none';
         mainContent.classList.add('show');
-      }, 600);
+        startHearts(); // Inicia los corazones al entrar
+      }, 800);
     } else {
       errorMsg.style.display = 'block';
       passInput.value = '';
@@ -464,91 +644,13 @@
     if (e.key === 'Enter') checkPassword();
   });
 
-  // 2. 11 Recuerdos / Razones (Puedes personalizar cada texto)
+  // 2. Textos e Imágenes
   const memories = [
-    { title: "Mes 1: El Comienzo ✨", text: "Donde todo empezó oficialmente. El inicio de nuestra historia favorita." },
-    { title: "Mes 2: Primeras Risas 💖", text: "Cuando me di cuenta de que no quería dejar de escucharte reír nunca." },
-    { title: "Mes 3: Cada Vez Más Cerca 🌹", text: "Nuestros paseos y conversaciones interminables que me enamoraron más." },
-    { title: "Mes 4: Momentos Inolvidables 📸", text: "Todas las fotos e historias hermosas que empezamos a construir." },
-    { title: "Mes 5: Cómplices 💫", text: "Aprender a conocernos en cada detalle y apoyarnos en todo momento." },
-    { title: "Mes 6: Medio Año Juntos 🎉", text: "Llegar a los 6 meses y saber que esto era solo el comienzo de algo enorme." },
-    { title: "Mes 7: Mi Lugar Favorito 🏡", text: "Descubrir que mi lugar favorito en el mundo es justo a tu lado." },
-    { title: "Mes 8: Infinitos Detalles 💌", text: "Cada gesto, cada abrazo y cada palabra de cariño que nos une." },
-    { title: "Mes 9: Aprendiendo Juntos 📖", text: "Superar días buenos y no tan buenos, siempre caminando de la mano." },
-    { title: "Mes 10: La Sorpresa 🎁", text: "Celebrar nuestros 10 meses y seguir sumando recuerdos maravillosos." },
-    { title: "Mes 11: Casi Un Año 🔥", text: "Estamos a un solo paso de cumplir 1 año y mi amor por ti no para de crecer." }
-  ];
-
-  // 3. Generar fondo estrellado
-  const universe = document.getElementById('universe');
-  for (let i = 0; i < 70; i++) {
-    const star = document.createElement('div');
-    star.className = 'bg-star';
-    star.style.width = Math.random() * 3 + 'px';
-    star.style.height = star.style.width;
-    star.style.left = Math.random() * 100 + 'vw';
-    star.style.top = Math.random() * 100 + 'vh';
-    star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
-    universe.appendChild(star);
-  }
-
-  // 4. Renderizar las 11 estrellas
-  const grid = document.getElementById('starsGrid');
-  const unlocked = new Set();
-
-  memories.forEach((mem, index) => {
-    const btn = document.createElement('button');
-    btn.className = 'star-btn';
-    btn.innerHTML = `
-      <div class="star-icon">⭐</div>
-      <span class="star-label">Mes ${index + 1}</span>
-    `;
-    btn.addEventListener('click', () => openMemory(index, btn));
-    grid.appendChild(btn);
-  });
-
-  const modal = document.getElementById('modal');
-  const modalTitle = document.getElementById('modalTitle');
-  const modalText = document.getElementById('modalText');
-  const modalClose = document.getElementById('modalClose');
-
-  function openMemory(index, btnElement) {
-    modalTitle.textContent = memories[index].title;
-    modalText.textContent = memories[index].text;
-    modal.classList.add('active');
-
-    if (!unlocked.has(index)) {
-      unlocked.add(index);
-      btnElement.classList.add('unlocked');
-      updateCounter();
-    }
-  }
-
-  modalClose.addEventListener('click', () => {
-    modal.classList.remove('active');
-  });
-
-  function updateCounter() {
-    const count = unlocked.size;
-    document.getElementById('counterText').textContent = `Descubre las 11 estrellas (${count}/11)`;
-    
-    if (count === 11) {
-      document.getElementById('final-letter').style.display = 'block';
-      document.getElementById('counterText').textContent = "¡Constelación completa! ❤️";
-    }
-  }
-
-  // 5. Control de música
-  const musicBtn = document.getElementById('music-toggle');
-  musicBtn.addEventListener('click', () => {
-    if (bgMusic.paused) {
-      bgMusic.play();
-      musicBtn.innerHTML = '🎵';
-    } else {
-      bgMusic.pause();
-      musicBtn.innerHTML = '🔇';
-    }
-  });
-</script>
-</body>
-</html>
+    { title: "Mes 1: El Comienzo ✨", text: "El 29 de noviembre cambió todo mi mundo. Recordar nuestros primeros momentos, los nervios y esa sonrisa tuya que supo que se quedaría con mi corazón.", img: "foto1.jpeg" },
+    { title: "Mes 2: Primeras Risas 💖", text: "Fuimos descubriendo lo lindo que es estar juntos. Me di cuenta de que no quería dejar de escucharte reír nunca.", img: "foto2.jpeg" },
+    { title: "Mes 3: Más Cerca 🌹", text: "Nuestros paseos y pláticas sinceras donde nos fuimos conociendo de verdad. Cada detalle me confirmaba que estaba en el lugar correcto.", img: "foto3.jpeg" },
+    { title: "Mes 4: Inolvidables 📸", text: "Comenzamos a construir recuerdos únicos, guardando en el alma cada abrazo, cada caricia y cada te amo.", img: "foto4.jpeg" },
+    { title: "Mes 5: Cómplices 💫", text: "Aprender a ser un verdadero equipo en todo. Descubrir que contigo la vida es mucho más bonita.", img: "foto5.jpeg" },
+    { title: "Mes 6: Medio Año 🎉", text: "Llegar a los 6 meses fue confirmar que lo nuestro era el inicio de una historia profunda y de amor verdadero.", img: "foto6.jpeg" },
+    { title: "Mes 7: Mi Hogar 🏡", text: "Comprendí que mi hogar no es un lugar físico, sino cualquier sitio donde tú estés. Tu abrazo se volvió mi paz.", img: "foto7.jpeg" },
+    { title: "Mes 8: Detalles 💌", text: "Ocho meses sumando miradas y 
