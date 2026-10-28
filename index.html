@@ -31,7 +31,6 @@
     -webkit-tap-highlight-color: transparent;
   }
   body { overflow-x: hidden; }
-  body.locked { overflow: hidden; height: 100dvh; }
 
   /* ================= FONDO ================= */
   .universe {
@@ -81,113 +80,18 @@
     box-shadow: 0 25px 50px rgba(0,0,0,0.5), inset 0 0 20px rgba(255, 105, 180, 0.05);
   }
 
-  /* ================= ACCESO ================= */
-  #lock-screen {
-    position: relative;
-    z-index: 5;
-    min-height: 100vh;
-    min-height: 100dvh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem;
-    text-align: center;
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-  #lock-screen.leaving { opacity: 0; transform: scale(1.05); pointer-events: none; }
-
-  .lock-card { padding: 2.8rem 1.8rem; max-width: 400px; width: 100%; }
-
-  .lock-icon {
-    font-size: 3.5rem;
-    margin-bottom: 1rem;
-    display: block;
-    animation: heartbeat 1.5s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
-    filter: drop-shadow(0 0 15px rgba(255, 20, 147, 0.5));
-  }
-  @keyframes heartbeat {
-    0%, 100% { transform: scale(1); }
-    15% { transform: scale(1.15); }
-    30% { transform: scale(1); }
-    45% { transform: scale(1.15); }
-  }
-
-  .lock-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem;
-    color: var(--pink-soft);
-    margin-bottom: 0.6rem;
-  }
-  .lock-subtitle {
-    font-size: 0.95rem;
-    color: var(--text-dim);
-    margin-bottom: 1.8rem;
-    line-height: 1.5;
-  }
-
-  /* Puntos de la clave */
-  .dots { display: flex; justify-content: center; gap: 12px; margin-bottom: 1.4rem; }
-  .dot {
-    width: 14px; height: 14px; border-radius: 50%;
-    border: 2px solid rgba(255,105,180,0.6);
-    transition: all 0.2s ease;
-  }
-  .dot.filled { background: var(--pink-hot); border-color: var(--pink-hot); box-shadow: 0 0 10px var(--pink-hot); transform: scale(1.1); }
-  .dots.shake { animation: shake 0.4s ease; }
-  @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-8px); }
-    75% { transform: translateX(8px); }
-  }
-
-  /* Teclado propio: funciona siempre en cualquier celular */
-  .keypad {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    max-width: 270px;
-    margin: 0 auto 1.2rem;
-  }
-  .key {
-    height: 58px;
-    border-radius: 50%;
-    border: 1px solid rgba(255,105,180,0.4);
-    background: rgba(255,255,255,0.04);
-    color: #fff;
-    font-family: 'Lato', sans-serif;
-    font-size: 1.5rem;
-    cursor: pointer;
-    transition: all 0.15s ease;
-    touch-action: manipulation;
-    user-select: none;
-    -webkit-user-select: none;
-  }
-  .key:active { background: var(--pink-hot); transform: scale(0.92); box-shadow: 0 0 18px rgba(255,20,147,0.6); }
-  .key.ghost { border-color: transparent; background: none; font-size: 1.2rem; color: var(--text-dim); }
-  .key.empty { visibility: hidden; }
-
-  .error-msg {
-    color: #ff4d6d;
-    font-size: 0.9rem;
-    min-height: 1.3em;
-    font-weight: 700;
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-  .error-msg.show { opacity: 1; }
-
   /* ================= PRINCIPAL ================= */
   #main-content {
     position: relative;
     z-index: 2;
     min-height: 100vh;
-    display: none;
+    display: flex;
     flex-direction: column;
     align-items: center;
     padding: 3rem 1.5rem 6rem;
     text-align: center;
+    animation: slideUpFade 1s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
-  #main-content.show { display: flex; animation: slideUpFade 1s cubic-bezier(0.16, 1, 0.3, 1) both; }
   @keyframes slideUpFade {
     from { opacity: 0; transform: translateY(30px); }
     to { opacity: 1; transform: translateY(0); }
@@ -402,40 +306,9 @@
   }
 </style>
 </head>
-<body class="locked">
+<body>
 
 <div class="universe" id="universe"></div>
-
-<!-- ================= ACCESO ================= -->
-<section id="lock-screen">
-  <div class="lock-card glass-panel">
-    <span class="lock-icon">💖</span>
-    <h2 class="lock-title">Acceso Privado</h2>
-    <p class="lock-subtitle">Ingresa nuestra fecha de pololeo para revelar tu sorpresa (DDMMAA)</p>
-
-    <div class="dots" id="dots">
-      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-    </div>
-
-    <div class="keypad" id="keypad">
-      <button type="button" class="key" data-k="1">1</button>
-      <button type="button" class="key" data-k="2">2</button>
-      <button type="button" class="key" data-k="3">3</button>
-      <button type="button" class="key" data-k="4">4</button>
-      <button type="button" class="key" data-k="5">5</button>
-      <button type="button" class="key" data-k="6">6</button>
-      <button type="button" class="key" data-k="7">7</button>
-      <button type="button" class="key" data-k="8">8</button>
-      <button type="button" class="key" data-k="9">9</button>
-      <button type="button" class="key empty" tabindex="-1" aria-hidden="true">0</button>
-      <button type="button" class="key" data-k="0">0</button>
-      <button type="button" class="key ghost" data-k="del" aria-label="Borrar">⌫</button>
-    </div>
-
-    <p id="errorMsg" class="error-msg">Clave incorrecta. Inténtalo de nuevo, mi amor.</p>
-  </div>
-</section>
 
 <!-- ================= CONTENIDO ================= -->
 <section id="main-content">
@@ -492,16 +365,6 @@
 (function () {
   'use strict';
 
-  var CODE = '291125';
-  var entered = '';
-  var isUnlocked = false;
-
-  var dotsWrap = document.getElementById('dots');
-  var dots = dotsWrap.querySelectorAll('.dot');
-  var errorMsg = document.getElementById('errorMsg');
-  var lockScreen = document.getElementById('lock-screen');
-  var mainContent = document.getElementById('main-content');
-
   /* ---------- Fondo de estrellas ---------- */
   var universe = document.getElementById('universe');
   for (var i = 0; i < 60; i++) {
@@ -516,68 +379,6 @@
     universe.appendChild(s);
   }
 
-  /* ---------- Clave ---------- */
-  function paintDots() {
-    for (var i = 0; i < dots.length; i++) {
-      if (i < entered.length) dots[i].classList.add('filled');
-      else dots[i].classList.remove('filled');
-    }
-  }
-
-  function wrong() {
-    errorMsg.classList.add('show');
-    dotsWrap.classList.remove('shake');
-    void dotsWrap.offsetWidth;
-    dotsWrap.classList.add('shake');
-    if (navigator.vibrate) { try { navigator.vibrate(120); } catch (e) {} }
-    setTimeout(function () {
-      entered = '';
-      paintDots();
-    }, 450);
-  }
-
-  function unlock() {
-    if (isUnlocked) return;
-    isUnlocked = true;
-    errorMsg.classList.remove('show');
-    lockScreen.classList.add('leaving');
-    setTimeout(function () {
-      lockScreen.style.display = 'none';
-      document.body.classList.remove('locked');
-      mainContent.classList.add('show');
-      window.scrollTo(0, 0);
-      startHearts();
-    }, 650);
-  }
-
-  function press(k) {
-    if (isUnlocked) return;
-    errorMsg.classList.remove('show');
-    if (k === 'del') {
-      entered = entered.slice(0, -1);
-    } else if (entered.length < CODE.length) {
-      entered += k;
-    }
-    paintDots();
-    if (entered.length === CODE.length) {
-      if (entered === CODE) { unlock(); } else { wrong(); }
-    }
-  }
-
-  document.getElementById('keypad').addEventListener('click', function (e) {
-    var btn = e.target.closest ? e.target.closest('.key') : null;
-    if (!btn) return;
-    var k = btn.getAttribute('data-k');
-    if (k !== null) press(k);
-  });
-
-  // Teclado físico (por si la abre en computador)
-  document.addEventListener('keydown', function (e) {
-    if (isUnlocked) return;
-    if (e.key >= '0' && e.key <= '9') press(e.key);
-    else if (e.key === 'Backspace') press('del');
-  });
-
   /* ---------- Corazones ---------- */
   function startHearts() {
     setInterval(function () {
@@ -588,4 +389,115 @@
       h.style.animationDuration = (Math.random() * 4 + 6) + 's';
       h.style.fontSize = (Math.random() + 0.8) + 'rem';
       document.body.appendChild(h);
-      setTimeout(function () { h.
+      setTimeout(function () { h.remove(); }, 10500);
+    }, 1200);
+  }
+  startHearts();
+
+  /* ---------- Recuerdos ---------- */
+  var memories = [
+    { title: "Mes 1: El Comienzo ✨", text: "El 29 de noviembre cambió todo mi mundo. Recordar nuestros primeros momentos, los nervios y esa sonrisa tuya que supo que se quedaría con mi corazón.", img: "foto1.jpeg" },
+    { title: "Mes 2: Primeras Risas 💖", text: "Fuimos descubriendo lo lindo que es estar juntos. Me di cuenta de que no quería dejar de escucharte reír nunca.", img: "foto2.jpeg" },
+    { title: "Mes 3: Más Cerca 🌹", text: "Nuestros paseos y pláticas sinceras donde nos fuimos conociendo de verdad. Cada detalle me confirmaba que estaba en el lugar correcto.", img: "foto3.jpeg" },
+    { title: "Mes 4: Inolvidables 📸", text: "Comenzamos a construir recuerdos únicos, guardando en el alma cada abrazo, cada caricia y cada te amo.", img: "foto4.jpeg" },
+    { title: "Mes 5: Cómplices 💫", text: "Aprender a ser un verdadero equipo en todo. Descubrir que contigo la vida es mucho más bonita.", img: "foto5.jpeg" },
+    { title: "Mes 6: Medio Año 🎉", text: "Llegar a los 6 meses fue confirmar que lo nuestro era el inicio de una historia profunda y de amor verdadero.", img: "foto6.jpeg" },
+    { title: "Mes 7: Mi Hogar 🏡", text: "Comprendí que mi hogar no es un lugar físico, sino cualquier sitio donde tú estés. Tu abrazo se volvió mi paz.", img: "foto7.jpeg" },
+    { title: "Mes 8: Detalles 💌", text: "Ocho meses sumando miradas y gestos que me recuerdan a diario la maravillosa mujer que tengo a mi lado.", img: null },
+    { title: "Mes 9: Creciendo 📖", text: "Superando cada etapa de la mano, aprendiendo con madurez y cariño. Sabiendo que unidos vencemos todo.", img: null },
+    { title: "Mes 10: Alegría 🎁", text: "Celebrar 10 meses nos demostró lo rápido que pasa el tiempo cuando se es feliz. Gracias por regalarme tanta luz.", img: null },
+    { title: "Mes 11: A un Paso 🔥", text: "Ya son 11 meses, mi Camilita hermosa. Estamos a nada de cumplir nuestro primer año y mi amor por ti es más fuerte que nunca.", img: null }
+  ];
+
+  var grid = document.getElementById('starsGrid');
+  var counterText = document.getElementById('counterText');
+  var progressBar = document.getElementById('progressBar');
+  var finalLetter = document.getElementById('final-letter');
+  var modal = document.getElementById('modal');
+  var modalTitle = document.getElementById('modalTitle');
+  var modalText = document.getElementById('modalText');
+  var modalImg = document.getElementById('modalImg');
+  var opened = {};
+  var total = memories.length;
+  var letterShown = false;
+
+  function countOpened() { return Object.keys(opened).length; }
+
+  function openMemory(index, btn) {
+    var m = memories[index];
+    modalTitle.textContent = m.title;
+    modalText.textContent = m.text;
+    if (m.img) {
+      modalImg.onerror = function () { modalImg.style.display = 'none'; };
+      modalImg.src = m.img;
+      modalImg.style.display = 'block';
+    } else {
+      modalImg.style.display = 'none';
+    }
+    modal.classList.add('active');
+
+    if (!opened[index]) {
+      opened[index] = true;
+      btn.classList.add('unlocked');
+      var n = countOpened();
+      progressBar.style.width = (n / total * 100) + '%';
+      if (n < total) {
+        counterText.textContent = 'Descubre las 11 estrellas (' + n + '/11)';
+      } else {
+        counterText.textContent = '¡Las 11 estrellas descubiertas! 💛';
+        counterText.classList.add('complete');
+      }
+    }
+  }
+
+  function closeModal() {
+    modal.classList.remove('active');
+    if (countOpened() === total && !letterShown) {
+      letterShown = true;
+      setTimeout(function () {
+        finalLetter.classList.add('show');
+        confetti();
+        setTimeout(function () {
+          finalLetter.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 150);
+      }, 450);
+    }
+  }
+
+  memories.forEach(function (mem, index) {
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'star-btn';
+    btn.style.animationDelay = (index * 0.08) + 's';
+    btn.innerHTML = '<div class="star-icon">⭐</div><span class="star-label">Mes ' + (index + 1) + '</span>';
+    btn.addEventListener('click', function () { openMemory(index, btn); });
+    grid.appendChild(btn);
+  });
+
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+  });
+
+  /* ---------- Confeti ---------- */
+  function confetti() {
+    var colors = ['#ff1493', '#ff69b4', '#ffd1dc', '#ffb84d', '#ffffff'];
+    for (var i = 0; i < 70; i++) {
+      var c = document.createElement('div');
+      c.className = 'confetti';
+      c.style.left = (Math.random() * 100) + 'vw';
+      c.style.width = (Math.random() * 8 + 6) + 'px';
+      c.style.height = (Math.random() * 10 + 8) + 'px';
+      c.style.background = colors[Math.floor(Math.random() * colors.length)];
+      c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      c.style.animationDuration = (Math.random() * 2 + 2.5) + 's';
+      c.style.animationDelay = (Math.random() * 0.8) + 's';
+      document.body.appendChild(c);
+      (function (el) { setTimeout(function () { el.remove(); }, 6000); })(c);
+    }
+  }
+})();
+</script>
+</body>
+</html>
